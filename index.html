@@ -406,29 +406,9 @@
           </form>
         </div>
 
-        <!-- Guestbook Messages List -->
-        <div class="guestbook-list" id="guestbook-list">
-          <div class="wish-card">
-            <div class="wish-header">
-              <div class="wish-avatar">T</div>
-              <div>
-                <div class="wish-author">Trần Hoàng Nam</div>
-                <div class="wish-side">Khách nhà trai • Sẽ tham dự</div>
-              </div>
-            </div>
-            <p class="wish-text">"Chúc hai bạn trăm năm hạnh phúc, gia đình êm ấm viên mãn và sớm đón quý tử nhé!"</p>
-          </div>
-
-          <div class="wish-card">
-            <div class="wish-header">
-              <div class="wish-avatar">N</div>
-              <div>
-                <div class="wish-author">Nguyễn Mai Phương</div>
-                <div class="wish-side">Khách nhà gái • Sẽ tham dự</div>
-              </div>
-            </div>
-            <p class="wish-text">"Chúc Quỳnh Như mãi luôn xinh đẹp và hạnh phúc bên anh Dưỡng. Chúc hai bạn một đời an yên!"</p>
-          </div>
+        <!-- Sổ lưu bút: nạp trực tiếp từ Google Sheets khi mở thiệp -->
+        <div class="guestbook-list" id="guestbook-list" aria-live="polite" aria-busy="true">
+          <p class="guestbook-status" id="guestbook-status">Đang tải lời chúc…</p>
         </div>
       </div>
     </section>

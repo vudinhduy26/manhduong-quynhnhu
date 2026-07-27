@@ -1306,11 +1306,40 @@ select.form-control {
   border-color: rgba(201,162,74,0.3);
 }
 
+.guestbook-status {
+  text-align: center;
+  padding: 26px 20px;
+  color: rgba(245, 239, 230, 0.55);
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: 0.95rem;
+  border: 1px dashed rgba(201, 162, 74, 0.18);
+  border-radius: 16px;
+}
+
+.guestbook-status[hidden] { display: none; }
+
 .wish-header {
   display: flex;
   align-items: center;
   gap: 14px;
   margin-bottom: 12px;
+}
+
+.wish-who {
+  min-width: 0;
+  flex: 1;
+}
+
+/* Đặt dưới cùng thay vì cạnh tên: trên máy hẹp, ngày tháng tranh chỗ làm dòng
+   "Khách nhà trai • Sẽ tham dự" bị vỡ dòng giữa chừng. */
+.wish-date {
+  margin-top: 10px;
+  text-align: right;
+  font-family: var(--font-sans);
+  font-size: 0.68rem;
+  letter-spacing: 0.5px;
+  color: rgba(245, 239, 230, 0.3);
 }
 
 .wish-avatar {

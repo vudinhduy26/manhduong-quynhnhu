@@ -12,7 +12,7 @@
 //  Ví dụ sau khi điền:
 //  const RSVP_ENDPOINT = 'https://script.google.com/macros/s/AKfycbxxxxx.../exec';
 // ─────────────────────────────────────────────────────────────────────────
-const RSVP_ENDPOINT = 'https://script.google.com/macros/s/AKfycbwz1cQUaD1qeJZNKBvhc2JeHzoJO_NFNHcFW11W49YzqaYCs_B16mi3BYQ7P_vwe-w/exec';
+const RSVP_ENDPOINT = 'https://script.google.com/macros/s/AKfycbwFPmXyiZg0dJldpByFxjyXrW2DkuHgGC33Ldx0Z4dnJnHasqEqtKgEPhhTV55F61ky/exec';
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -312,18 +312,54 @@ document.addEventListener('DOMContentLoaded', () => {
   const rsvpForm = document.getElementById('rsvp-form');
   const guestbookList = document.getElementById('guestbook-list');
 
-  // The two cards already in the markup are examples; saved wishes are inserted
-  // above them so the newest is always first, on submit AND after a reload.
-  const sampleAnchor = guestbookList ? guestbookList.firstElementChild : null;
+  const guestbookStatus = document.getElementById('guestbook-status');
 
-  let storedWishes = [];
-  try {
-    const parsed = JSON.parse(localStorage.getItem('wedding_wishes') || '[]');
-    if (Array.isArray(parsed)) storedWishes = parsed;
-  } catch (err) {
-    console.log('Không đọc được lời chúc đã lưu:', err);
-  }
-  storedWishes.forEach(wish => renderWishCard(wish, sampleAnchor));
+  const setGuestbookStatus = (text) => {
+    if (!guestbookStatus) return;
+    guestbookStatus.textContent = text || '';
+    guestbookStatus.hidden = !text;
+  };
+
+  // Nạp lời chúc từ Google Sheets. Đây là chiều ngược lại của việc gửi form:
+  // Sheet là nguồn dữ liệu duy nhất, nên mọi khách đều thấy cùng một danh sách.
+  const loadWishes = async () => {
+    if (!guestbookList) return;
+    if (!RSVP_ENDPOINT) {
+      setGuestbookStatus('Chưa kết nối máy chủ nên chưa hiển thị được lời chúc.');
+      guestbookList.setAttribute('aria-busy', 'false');
+      return;
+    }
+
+    setGuestbookStatus('Đang tải lời chúc…');
+    guestbookList.setAttribute('aria-busy', 'true');
+
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 15000);
+    try {
+      const res = await fetch(RSVP_ENDPOINT, { signal: controller.signal, redirect: 'follow' });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const data = await res.json();
+      if (!data.ok) throw new Error(data.error || 'Máy chủ trả về lỗi');
+
+      guestbookList.querySelectorAll('.wish-card').forEach(el => el.remove());
+
+      const wishes = Array.isArray(data.wishes) ? data.wishes : [];
+      if (!wishes.length) {
+        setGuestbookStatus('Chưa có lời chúc nào — hãy là người đầu tiên!');
+      } else {
+        setGuestbookStatus('');
+        wishes.forEach(w => renderWishCard(w));
+      }
+    } catch (err) {
+      console.error('[Sổ lưu bút] Không tải được:', err);
+      setGuestbookStatus('Không tải được lời chúc, vui lòng thử lại sau.');
+    } finally {
+      clearTimeout(timeout);
+      guestbookList.setAttribute('aria-busy', 'false');
+    }
+  };
+
+  loadWishes();
 
   // Gửi bản ghi về Google Sheets. Dùng Content-Type text/plain để trình duyệt coi
   // đây là "simple request" — không phát sinh preflight OPTIONS, thứ mà Google
@@ -384,9 +420,11 @@ document.addEventListener('DOMContentLoaded', () => {
       const countLabel = countSelect ? countSelect.options[countSelect.selectedIndex].text : '';
       const message = document.getElementById('guest-message').value.trim();
 
+      // Số người đi cùng chỉ gửi về Sheet cho bạn xem, không hiển thị công khai.
       const newWish = {
         name,
-        side: [side, attendance, countLabel].filter(Boolean).join(' • '),
+        side,
+        attendance,
         message: message || 'Chúc hai bạn trăm năm hạnh phúc!',
         date: new Date().toLocaleDateString('vi-VN')
       };
@@ -425,15 +463,10 @@ document.addEventListener('DOMContentLoaded', () => {
         submitBtn.textContent = submitLabel;
       }
 
-      renderWishCard(newWish, guestbookList.firstChild);
-
-      // Lưu bản sao trên máy khách để họ vẫn thấy lời chúc của mình sau khi tải lại.
-      storedWishes.unshift(newWish);
-      try {
-        localStorage.setItem('wedding_wishes', JSON.stringify(storedWishes));
-      } catch (err) {
-        console.log('Không lưu được lời chúc:', err);
-      }
+      // Hiện ngay lời chúc vừa gửi để khách thấy phản hồi tức thì; lần tải trang
+      // sau nó sẽ đến từ Sheet như mọi lời chúc khác.
+      setGuestbookStatus('');
+      renderWishCard(newWish, guestbookList.querySelector('.wish-card'));
 
       showToast(
         result.unconfigured
@@ -447,19 +480,24 @@ document.addEventListener('DOMContentLoaded', () => {
   // `before` is the node to insert ahead of; omit to append at the end.
   function renderWishCard(wish, before) {
     if (!guestbookList) return;
-    const name = String(wish.name ?? '');
+    const name = String(wish.name ?? '').trim();
+    if (!name) return;
+
+    const meta = [wish.side, wish.attendance].map(v => String(v ?? '').trim()).filter(Boolean).join(' • ');
+    const date = String(wish.date ?? '').trim();
     const card = document.createElement('div');
     card.className = 'wish-card';
 
     card.innerHTML = `
       <div class="wish-header">
         <div class="wish-avatar">${escapeHtml(name.charAt(0).toUpperCase())}</div>
-        <div>
+        <div class="wish-who">
           <div class="wish-author">${escapeHtml(name)}</div>
-          <div class="wish-side">${escapeHtml(String(wish.side ?? ''))}</div>
+          <div class="wish-side">${escapeHtml(meta)}</div>
         </div>
       </div>
       <p class="wish-text">&ldquo;${escapeHtml(String(wish.message ?? ''))}&rdquo;</p>
+      ${date ? `<div class="wish-date">${escapeHtml(date)}</div>` : ''}
     `;
 
     if (before) {

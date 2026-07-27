@@ -15,6 +15,14 @@
 // Tên tab (sheet) sẽ chứa dữ liệu. Không cần tạo trước — script tự tạo.
 var SHEET_NAME = 'RSVP';
 
+// Số lời chúc mới nhất hiển thị trên thiệp.
+var MAX_WISHES = 100;
+
+// Lưu đệm kết quả để nhiều khách vào cùng lúc không phải đọc Sheet mỗi lần
+// (đọc Sheet chậm, và Google có giới hạn số lần gọi mỗi ngày).
+var CACHE_KEY = 'wishes_v1';
+var CACHE_SECONDS = 30;
+
 var HEADERS = [
   'Thời gian',
   'Họ và tên',
@@ -71,6 +79,9 @@ function doPost(e) {
       message
     ]);
 
+    // Bỏ bộ đệm cũ, nếu không lời chúc vừa gửi sẽ không xuất hiện trong 30 giây.
+    CacheService.getScriptCache().remove(CACHE_KEY);
+
     return jsonOut_({ ok: true });
   } catch (err) {
     return jsonOut_({ ok: false, error: String(err) });
@@ -80,16 +91,57 @@ function doPost(e) {
 }
 
 /**
- * Mở đường dẫn /exec bằng trình duyệt sẽ chạy hàm này.
- * Dùng để kiểm tra xem đã cài đặt đúng chưa.
+ * Thiệp gọi hàm này để LẤY danh sách lời chúc về hiển thị.
+ * Mở đường dẫn /exec bằng trình duyệt cũng chạy hàm này -> dùng để kiểm tra.
+ *
+ * CHỈ trả về: tên, khách của, xác nhận, lời chúc, ngày.
+ * KHÔNG trả về số người đi cùng — thông tin đó chỉ bạn xem trong Sheet.
  */
 function doGet() {
-  var sheet = getSheet_();
-  var soDong = Math.max(0, sheet.getLastRow() - 1);
-  return jsonOut_({
-    ok: true,
-    message: 'Máy chủ RSVP đang hoạt động. Đã nhận ' + soDong + ' xác nhận.'
-  });
+  try {
+    var cache = CacheService.getScriptCache();
+    var cached = cache.get(CACHE_KEY);
+    if (cached) return ContentService.createTextOutput(cached)
+      .setMimeType(ContentService.MimeType.JSON);
+
+    var sheet = getSheet_();
+    var last = sheet.getLastRow();
+    var wishes = [];
+
+    if (last >= 2) {
+      // Chỉ lấy MAX_WISHES dòng cuối để phản hồi không bị phình to.
+      var start = Math.max(2, last - MAX_WISHES + 1);
+      var rows = sheet.getRange(start, 1, last - start + 1, 7).getValues();
+
+      // Duyệt ngược để lời chúc mới nhất nằm trên cùng.
+      for (var i = rows.length - 1; i >= 0; i--) {
+        var name = String(rows[i][1] || '').trim();
+        if (!name) continue;
+        wishes.push({
+          name: name,
+          side: String(rows[i][2] || '').trim(),
+          attendance: String(rows[i][3] || '').trim(),
+          message: String(rows[i][6] || '').trim(),
+          date: formatDate_(rows[i][0])
+        });
+      }
+    }
+
+    var payload = JSON.stringify({ ok: true, total: wishes.length, wishes: wishes });
+
+    // CacheService giới hạn 100KB mỗi mục — vượt thì thôi không lưu đệm.
+    if (payload.length < 90000) cache.put(CACHE_KEY, payload, CACHE_SECONDS);
+
+    return ContentService.createTextOutput(payload)
+      .setMimeType(ContentService.MimeType.JSON);
+  } catch (err) {
+    return jsonOut_({ ok: false, error: String(err) });
+  }
+}
+
+function formatDate_(v) {
+  if (!(v instanceof Date) || isNaN(v.getTime())) return '';
+  return Utilities.formatDate(v, 'Asia/Ho_Chi_Minh', 'dd/MM/yyyy');
 }
 
 /**

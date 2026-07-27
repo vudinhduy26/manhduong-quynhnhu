@@ -144,11 +144,26 @@ body::after {
   z-index: 1;
 }
 
+/* Lớp tim rơi phủ toàn trang sau khi mở thiệp.
+   z-index 2 = trên nội dung (section z-index 1) nhưng dưới nút nhạc (900),
+   lightbox (99999) và toast, để tim không bao giờ che các lớp đó. */
+.page-particles {
+  position: fixed;
+  z-index: 2;
+  opacity: 0;
+  transition: opacity 1.4s ease;
+}
+
+.page-particles.on {
+  opacity: 0.5;
+}
+
 .particle {
   position: absolute;
   top: -30px;
   animation: ambient-fall linear infinite;
   opacity: 0.8;
+  will-change: transform;
 }
 
 @keyframes ambient-fall {

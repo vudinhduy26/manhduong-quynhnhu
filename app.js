@@ -31,28 +31,36 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   // 1. AMBIENT FALLING PARTICLES (Hearts & Petals)
-  const particleContainer = document.getElementById('particle-container');
-  if (particleContainer && !reduceMotion) {
-    const colors = ['#ece4d8', '#a8323b', '#c9a24a', '#7a1f26'];
-    const particleCount = 18;
+  const HEART_SVG = `
+    <svg viewBox="0 0 24 24" fill="currentColor" width="1em" height="1em">
+      <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+    </svg>
+  `;
+  const PARTICLE_COLORS = ['#ece4d8', '#a8323b', '#c9a24a', '#7a1f26'];
 
-    for (let i = 0; i < particleCount; i++) {
+  const spawnParticles = (container, count) => {
+    if (!container || reduceMotion) return;
+    for (let i = 0; i < count; i++) {
       const p = document.createElement('div');
       p.className = 'particle';
       p.style.left = `${Math.random() * 100}%`;
       p.style.fontSize = `${10 + Math.random() * 14}px`;
-      p.style.color = colors[Math.floor(Math.random() * colors.length)];
+      p.style.color = PARTICLE_COLORS[Math.floor(Math.random() * PARTICLE_COLORS.length)];
       p.style.setProperty('--sway', `${(Math.random() - 0.5) * 60}px`);
       p.style.animationDuration = `${7 + Math.random() * 6}s`;
       p.style.animationDelay = `${Math.random() * 4}s`;
-      p.innerHTML = `
-        <svg viewBox="0 0 24 24" fill="currentColor" width="1em" height="1em">
-          <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-        </svg>
-      `;
-      particleContainer.appendChild(p);
+      p.innerHTML = HEART_SVG;
+      container.appendChild(p);
     }
-  }
+  };
+
+  // Lớp tim rơi của phong bì (bị ẩn cùng phong bì khi mở thiệp).
+  const particleContainer = document.getElementById('particle-container');
+  spawnParticles(particleContainer, 18);
+
+  // Lớp tim rơi của trang chính — nằm ngoài phong bì nên vẫn chạy sau khi mở.
+  // Chỉ tạo lúc mở thiệp: trước đó nó bị phong bì che, tạo sẵn chỉ tốn CPU.
+  const pageParticles = document.getElementById('page-particles');
 
   // 2. ENVELOPE OPENING ANIMATION
   const envelopeOverlay = document.getElementById('envelope-overlay');
@@ -83,11 +91,19 @@ document.addEventListener('DOMContentLoaded', () => {
     if (envelopeOverlay) {
       envelopeOverlay.classList.add('opened');
       unlockScroll();
-      // Take it out of the compositor once it has slid away, otherwise the
-      // particle animations keep running forever behind an invisible layer.
-      setTimeout(() => { envelopeOverlay.style.visibility = 'hidden'; }, 900);
+      setTimeout(() => {
+        envelopeOverlay.style.visibility = 'hidden';
+        // Gỡ hẳn tim của phong bì: giữ lại chỉ tốn CPU cho thứ không ai nhìn thấy.
+        if (particleContainer) particleContainer.innerHTML = '';
+      }, 900);
     }
     if (mainContent) mainContent.removeAttribute('aria-hidden');
+
+    // Tim tiếp tục rơi trên trang chính sau khi mở thiệp.
+    if (pageParticles) {
+      spawnParticles(pageParticles, 12);
+      requestAnimationFrame(() => pageParticles.classList.add('on'));
+    }
 
     // Attempt auto-play music
     if (audio) {

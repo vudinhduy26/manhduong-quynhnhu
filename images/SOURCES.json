@@ -1,0 +1,167 @@
+[
+  {
+    "name": "favicon.png",
+    "bytes": 45026,
+    "kind": "png",
+    "dim": {
+      "w": 512,
+      "h": 512
+    },
+    "attempts": 1,
+    "source": "https://chungdoi.com/icon-v2.png"
+  },
+  {
+    "name": "og-cover.jpg",
+    "bytes": 100586,
+    "kind": "jpg",
+    "dim": {
+      "h": 840,
+      "w": 1600
+    },
+    "attempts": 1,
+    "source": "https://cdn.chungdoi.com/uploads/d047541f-7280-4bb2-84d5-eacf368a06f7.jpg"
+  },
+  {
+    "name": "hero.jpg",
+    "bytes": 225706,
+    "kind": "jpg",
+    "dim": {
+      "h": 2400,
+      "w": 1427
+    },
+    "attempts": 1,
+    "source": "https://cdn.chungdoi.com/uploads/9c44c385-2740-402d-b60e-0f9c459b5e96.jpg"
+  },
+  {
+    "name": "gallery-01.jpg",
+    "bytes": 264851,
+    "kind": "jpg",
+    "dim": {
+      "h": 2400,
+      "w": 1600
+    },
+    "attempts": 1,
+    "source": "https://cdn.chungdoi.com/uploads/ba6f3abb-d41a-4e94-8889-46a2f007e5fb.jpg"
+  },
+  {
+    "name": "gallery-02.jpg",
+    "bytes": 374493,
+    "kind": "jpg",
+    "dim": {
+      "h": 2400,
+      "w": 1600
+    },
+    "attempts": 1,
+    "source": "https://cdn.chungdoi.com/uploads/9ce73c65-2ef0-448b-8eed-b6dc6aa07edd.jpg"
+  },
+  {
+    "name": "gallery-03.jpg",
+    "bytes": 351556,
+    "kind": "jpg",
+    "dim": {
+      "h": 1600,
+      "w": 2400
+    },
+    "attempts": 1,
+    "source": "https://cdn.chungdoi.com/uploads/0bfe90e9-fa61-4dfe-aab0-48ad1807ad5e.jpg"
+  },
+  {
+    "name": "gallery-04.jpg",
+    "bytes": 286845,
+    "kind": "jpg",
+    "dim": {
+      "h": 2400,
+      "w": 1600
+    },
+    "attempts": 1,
+    "source": "https://cdn.chungdoi.com/uploads/09e66419-c9f6-4223-bf36-c9e1c00b1365.jpg"
+  },
+  {
+    "name": "gallery-05.jpg",
+    "bytes": 370413,
+    "kind": "jpg",
+    "dim": {
+      "h": 2400,
+      "w": 1600
+    },
+    "attempts": 1,
+    "source": "https://cdn.chungdoi.com/uploads/f68f1a99-6240-42b8-b7ff-d45ebe821208.jpg"
+  },
+  {
+    "name": "gallery-06.jpg",
+    "bytes": 339261,
+    "kind": "jpg",
+    "dim": {
+      "h": 2400,
+      "w": 1600
+    },
+    "attempts": 1,
+    "source": "https://cdn.chungdoi.com/uploads/0c600bab-9a3e-469c-916e-0c9ab6ae6e8f.jpg"
+  },
+  {
+    "name": "gallery-07.jpg",
+    "bytes": 186443,
+    "kind": "jpg",
+    "dim": {
+      "h": 2400,
+      "w": 1600
+    },
+    "attempts": 1,
+    "source": "https://cdn.chungdoi.com/uploads/827be386-5766-4bb8-8dfe-230c35be918f.jpg"
+  },
+  {
+    "name": "gallery-08.jpg",
+    "bytes": 273275,
+    "kind": "jpg",
+    "dim": {
+      "h": 2400,
+      "w": 1600
+    },
+    "attempts": 1,
+    "source": "https://cdn.chungdoi.com/uploads/bc3f59ee-89a1-48c8-96cd-86f1827d44ce.jpg"
+  },
+  {
+    "name": "gallery-09.jpg",
+    "bytes": 611904,
+    "kind": "jpg",
+    "dim": {
+      "h": 2400,
+      "w": 1600
+    },
+    "attempts": 1,
+    "source": "https://cdn.chungdoi.com/uploads/c0bb329e-0e72-49e1-9ffe-eba55a2285db.jpg"
+  },
+  {
+    "name": "gallery-10.jpg",
+    "bytes": 242134,
+    "kind": "jpg",
+    "dim": {
+      "h": 2400,
+      "w": 1600
+    },
+    "attempts": 1,
+    "source": "https://cdn.chungdoi.com/uploads/3e979191-7c66-428f-bafb-59ad4eb99249.jpg"
+  },
+  {
+    "name": "gallery-11.jpg",
+    "bytes": 242504,
+    "kind": "jpg",
+    "dim": {
+      "h": 2400,
+      "w": 1600
+    },
+    "attempts": 1,
+    "source": "https://cdn.chungdoi.com/uploads/0827cc5c-9017-4396-b681-825f30c6672f.jpg"
+  },
+  {
+    "name": "gallery-12.jpg",
+    "bytes": 245347,
+    "kind": "jpg",
+    "dim": {
+      "h": 2400,
+      "w": 1600
+    },
+    "attempts": 1,
+    "source": "https://cdn.chungdoi.com/uploads/772ef5f3-2783-4ac9-b47f-ca3e3b1caeac.jpg"
+  }
+]

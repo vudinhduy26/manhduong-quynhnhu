@@ -317,30 +317,15 @@
           <div class="title-line"><span class="title-ornament">✦</span></div>
         </div>
 
-        <div class="bank-cards-grid">
-          <!-- Groom Bank -->
-          <div class="bank-card">
-            <h3 class="bank-title">Chú Rể: Vũ Mạnh Dưỡng</h3>
-            <p class="bank-name">Ngân hàng Vietcombank (VCB)</p>
-            <img class="bank-qr-img" src="images/qr-groom.png" alt="Mã VietQR chuyển khoản cho chú rể" width="540" height="640" loading="lazy">
-            <div class="account-number-box">
-              <span class="acc-num">0691000379353</span>
-              <button class="btn-copy" type="button" onclick="copyAcc('0691000379353')">Sao chép</button>
-            </div>
-            <p style="font-size: 0.85rem; color: rgba(245,239,230,0.6);">Chủ tài khoản: VŨ MẠNH DƯỠNG</p>
-          </div>
-
-          <!-- Bride Bank -->
-          <div class="bank-card">
-            <h3 class="bank-title">Cô Dâu: Vũ Quỳnh Như</h3>
-            <p class="bank-name">Ngân hàng Vietcombank (VCB)</p>
-            <img class="bank-qr-img" src="images/qr-bride.png" alt="Mã VietQR chuyển khoản cho cô dâu" width="540" height="640" loading="lazy">
-            <div class="account-number-box">
-              <span class="acc-num">0691000379353</span>
-              <button class="btn-copy" type="button" onclick="copyAcc('0691000379353')">Sao chép</button>
-            </div>
-            <p style="font-size: 0.85rem; color: rgba(245,239,230,0.6);">Chủ tài khoản: VŨ THỊ NHƯ</p>
-          </div>
+        <!-- Hai phong bao lì xì — nhấn để mở bảng chứa mã QR -->
+        <div class="lixi-stage reveal">
+          <button type="button" class="lixi-open" id="btn-lixi" aria-haspopup="dialog" aria-expanded="false">
+            <span class="lixi lixi-a" aria-hidden="true"><span class="lixi-flap"></span></span>
+            <span class="lixi lixi-b" aria-hidden="true"><span class="lixi-flap"></span></span>
+            <span class="lixi-sparkle" aria-hidden="true">✦</span>
+            <span class="sr-only">Mở hộp quà mừng để xem mã QR chuyển khoản</span>
+          </button>
+          <p class="lixi-hint">Nhấn để mở</p>
         </div>
       </div>
     </section>
@@ -429,6 +414,40 @@
     </footer>
 
   </main>
+
+  <!-- HỘP QUÀ MỪNG — bảng chứa mã QR, mở từ phong bao lì xì -->
+  <div id="lixi-modal" class="lixi-modal" role="dialog" aria-modal="true" aria-labelledby="lixi-title">
+    <div class="lixi-panel">
+      <div class="lixi-panel-head">
+        <h3 class="lixi-panel-title" id="lixi-title">Hộp Quà Mừng</h3>
+        <button class="lixi-close" id="lixi-close" type="button" aria-label="Đóng">&times;</button>
+      </div>
+
+      <div class="lixi-panel-body">
+        <div class="bank-card">
+          <h4 class="bank-title">Chú Rể — Vũ Mạnh Dưỡng</h4>
+          <img class="bank-qr-img" src="images/qr-groom.png" alt="Mã VietQR chuyển khoản cho chú rể" width="540" height="640" loading="lazy">
+          <p class="bank-name">Vietcombank (VCB)</p>
+          <div class="account-number-box">
+            <span class="acc-num">0691000379353</span>
+            <button class="btn-copy" type="button" onclick="copyAcc('0691000379353')">Sao chép</button>
+          </div>
+          <p class="bank-owner">Chủ tài khoản: VŨ MẠNH DƯỠNG</p>
+        </div>
+
+        <div class="bank-card">
+          <h4 class="bank-title">Cô Dâu — Vũ Quỳnh Như</h4>
+          <img class="bank-qr-img" src="images/qr-bride.png" alt="Mã VietQR chuyển khoản cho cô dâu" width="540" height="640" loading="lazy">
+          <p class="bank-name">Vietcombank (VCB)</p>
+          <div class="account-number-box">
+            <span class="acc-num">0691000379353</span>
+            <button class="btn-copy" type="button" onclick="copyAcc('0691000379353')">Sao chép</button>
+          </div>
+          <p class="bank-owner">Chủ tài khoản: VŨ THỊ NHƯ</p>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- LIGHTBOX MODAL -->
   <div id="lightbox-modal" class="lightbox-modal" role="dialog" aria-modal="true" aria-label="Xem ảnh cưới">

@@ -324,7 +324,39 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 8. RSVP FORM SUBMISSION & DYNAMIC GUESTBOOK
+  // 8. HỘP QUÀ MỪNG — phong bao lì xì mở ra bảng chứa mã QR
+  const lixiBtn = document.getElementById('btn-lixi');
+  const lixiModal = document.getElementById('lixi-modal');
+  const lixiClose = document.getElementById('lixi-close');
+
+  if (lixiBtn && lixiModal) {
+    const openLixi = () => {
+      lixiModal.classList.add('active');
+      lixiBtn.setAttribute('aria-expanded', 'true');
+      lockScroll();
+      if (lixiClose) lixiClose.focus();
+    };
+
+    const closeLixi = () => {
+      lixiModal.classList.remove('active');
+      lixiBtn.setAttribute('aria-expanded', 'false');
+      unlockScroll();
+      lixiBtn.focus();
+    };
+
+    lixiBtn.addEventListener('click', openLixi);
+    if (lixiClose) lixiClose.addEventListener('click', closeLixi);
+
+    lixiModal.addEventListener('click', (e) => {
+      if (e.target === lixiModal) closeLixi();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && lixiModal.classList.contains('active')) closeLixi();
+    });
+  }
+
+  // 9. RSVP FORM SUBMISSION & DYNAMIC GUESTBOOK
   const rsvpForm = document.getElementById('rsvp-form');
   const guestbookList = document.getElementById('guestbook-list');
 

@@ -12,7 +12,7 @@
 //  Ví dụ sau khi điền:
 //  const RSVP_ENDPOINT = 'https://script.google.com/macros/s/AKfycbxxxxx.../exec';
 // ─────────────────────────────────────────────────────────────────────────
-const RSVP_ENDPOINT = '';
+const RSVP_ENDPOINT = 'https://script.google.com/macros/s/AKfycbwz1cQUaD1qeJZNKBvhc2JeHzoJO_NFNHcFW11W49YzqaYCs_B16mi3BYQ7P_vwe-w/exec';
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -175,7 +175,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const lbPrev = document.getElementById('lb-prev');
   const lbNext = document.getElementById('lb-next');
   const lbCounter = document.getElementById('lb-counter');
-  
+
   // Fall back to the <img> src so a gallery item missing data-src still works.
   const galleryImages = [...galleryItems].map(
     item => item.getAttribute('data-src') || item.querySelector('img')?.src
@@ -470,7 +470,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function escapeHtml(text) {
-    return String(text).replace(/[&<>"']/g, function(m) {
+    return String(text).replace(/[&<>"']/g, function (m) {
       return {
         '&': '&amp;',
         '<': '&lt;',
@@ -487,7 +487,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // navigator.clipboard is undefined on plain http:// and file:// — reading
 // .writeText off it would throw synchronously, so check before using it and
 // fall back to the legacy execCommand path.
-window.copyAcc = function(accNumber) {
+window.copyAcc = function (accNumber) {
   const ok = () => showToast(`Đã sao chép STK: ${accNumber}`);
   const fallback = () => {
     const ta = document.createElement('textarea');
@@ -516,7 +516,7 @@ window.copyAcc = function(accNumber) {
 
 // Global Toast function
 let toastTimer = null;
-window.showToast = function(msg) {
+window.showToast = function (msg) {
   const toast = document.getElementById('toast');
   if (!toast) return;
   toast.textContent = msg;

@@ -179,14 +179,22 @@ Hãy thử Bước 7.
 
 ## Khi đưa thiệp lên mạng
 
-Bạn dự định dùng GitHub Pages / Netlify / Vercel — cả ba đều chạy tốt với cách
-làm này (Google lo phần lưu trữ dữ liệu, nơi đăng chỉ cần phục vụ file tĩnh).
+Thiệp được đăng bằng **GitHub Pages** tại:
 
-Sau khi có tên miền, nhớ sửa **1 dòng** trong `index.html` (dòng 15) để ảnh hiện
-đúng khi chia sẻ lên Facebook/Zalo:
+```
+https://vudinhduy26.github.io/manhduong-quynhnhu/
+```
+
+Google lo phần lưu trữ dữ liệu RSVP, GitHub chỉ phục vụ file tĩnh — hai bên
+độc lập nhau nên không ảnh hưởng gì đến nhau.
+
+**Nếu sau này đổi tên repo hoặc mua tên miền riêng**, phải sửa 2 dòng trong
+`index.html` (khoảng dòng 15-16), nếu không ảnh sẽ không hiện khi chia sẻ lên
+Facebook/Zalo:
 
 ```html
-<meta property="og:image" content="https://tenmien-cua-ban/images/og-cover.jpg">
+<meta property="og:url"   content="https://dia-chi-moi/">
+<meta property="og:image" content="https://dia-chi-moi/images/og-cover.jpg">
 ```
 
 Facebook và Zalo bắt buộc dùng đường dẫn đầy đủ, không nhận đường dẫn tương đối.

@@ -71,6 +71,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const mainContent = document.getElementById('main-content');
   let invitationOpened = false;
 
+  // Đảm bảo vị trí luôn ở đỉnh trang (top: 0) khi tải hoặc mở thiệp
+  if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'manual';
+  }
+  window.scrollTo(0, 0);
+
   // The overlay is position:fixed, so without this the page behind it still
   // scrolls (and the scrollbar is still draggable) before the card is opened.
   if (envelopeOverlay) {
@@ -87,6 +93,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const openInvitation = () => {
     if (invitationOpened) return;
     invitationOpened = true;
+
+    // Đưa ngay về vị trí đầu trang trước khi cuộn
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
 
     if (envelopeOverlay) {
       envelopeOverlay.classList.add('opened');
@@ -105,6 +116,11 @@ document.addEventListener('DOMContentLoaded', () => {
       requestAnimationFrame(() => pageParticles.classList.add('on'));
     }
 
+    // Tự động cuộn trang dọc từ trên xuống sau khi mở thiệp (tốc độ đọc điện ảnh mượt mà)
+    setTimeout(() => {
+      startAutoScroll();
+    }, 1400);
+
     // Attempt auto-play music
     if (audio) {
       audio.play()
@@ -114,6 +130,86 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
   };
+
+  // TỰ ĐỘNG CUỘN TRANG DỌC (AUTO-SCROLL)
+  let isAutoScrolling = false;
+  let autoScrollRaf = null;
+  let resumeScrollTimeout = null;
+
+  const stopAutoScroll = () => {
+    isAutoScrolling = false;
+    if (autoScrollRaf) {
+      cancelAnimationFrame(autoScrollRaf);
+      autoScrollRaf = null;
+    }
+  };
+
+  const startAutoScroll = () => {
+    if (reduceMotion || !invitationOpened) return;
+    if (autoScrollRaf) cancelAnimationFrame(autoScrollRaf);
+    if (resumeScrollTimeout) clearTimeout(resumeScrollTimeout);
+    isAutoScrolling = true;
+
+    const scrollSpeed = 0.65; // Tốc độ trôi chậm rãi, thư thái (~38px/giây)
+
+    const step = () => {
+      if (!isAutoScrolling) return;
+
+      const maxScroll = (document.documentElement.scrollHeight || document.body.scrollHeight) - window.innerHeight;
+      if (window.scrollY >= maxScroll - 8) {
+        stopAutoScroll();
+        return;
+      }
+
+      window.scrollBy({ top: scrollSpeed, left: 0, behavior: 'instant' });
+      autoScrollRaf = requestAnimationFrame(step);
+    };
+
+    autoScrollRaf = requestAnimationFrame(step);
+  };
+
+  const toggleAutoScroll = () => {
+    if (!invitationOpened) return;
+    if (isAutoScrolling) {
+      stopAutoScroll();
+      if (resumeScrollTimeout) clearTimeout(resumeScrollTimeout);
+    } else {
+      startAutoScroll();
+    }
+  };
+
+  // Click / Chạm vào màn hình để Bật/Tắt (Dừng / Tiếp tục) cuộn tự động
+  document.addEventListener('click', (e) => {
+    if (!invitationOpened) return;
+
+    // Không can thiệp nếu người dùng bấm vào các nút bấm, form, slider, v.v.
+    const isInteractive = e.target.closest(
+      'button, a, input, textarea, select, label, .gallery-item, .gallery-3d-nav-btn, .gallery-dot, .lixi-modal, .lightbox-modal, .music-btn, #btn-open-envelope, .map-frame'
+    );
+    if (isInteractive) return;
+
+    toggleAutoScroll();
+  });
+
+  // Khi người dùng chủ động lăn chuột hoặc vuốt chạm: tạm dừng cuộn
+  const handleUserManualScroll = () => {
+    if (isAutoScrolling) {
+      stopAutoScroll();
+    }
+    // Tự động cuộn tiếp sau 3.5 giây khi người dùng dừng thao tác
+    if (invitationOpened) {
+      if (resumeScrollTimeout) clearTimeout(resumeScrollTimeout);
+      resumeScrollTimeout = setTimeout(() => {
+        const maxScroll = (document.documentElement.scrollHeight || document.body.scrollHeight) - window.innerHeight;
+        if (window.scrollY < maxScroll - 50) {
+          startAutoScroll();
+        }
+      }, 3500);
+    }
+  };
+
+  window.addEventListener('wheel', handleUserManualScroll, { passive: true });
+  window.addEventListener('touchmove', handleUserManualScroll, { passive: true });
 
   if (btnOpenEnvelope) {
     btnOpenEnvelope.addEventListener('click', openInvitation);
@@ -183,8 +279,13 @@ document.addEventListener('DOMContentLoaded', () => {
   updateCountdown();
   countdownTimer = setInterval(updateCountdown, 1000);
 
-  // 5. GALLERY LIGHTBOX MODAL with Prev/Next Navigation
-  const galleryItems = document.querySelectorAll('.gallery-item');
+  // 5. 3D COVERFLOW GALLERY & LIGHTBOX MODAL
+  const slides3D = document.querySelectorAll('.gallery-3d-slide');
+  const stage3D = document.getElementById('gallery-3d-stage');
+  const prev3DBtn = document.getElementById('gallery-prev-btn');
+  const next3DBtn = document.getElementById('gallery-next-btn');
+  const dotsContainer = document.getElementById('gallery-dots');
+
   const lightboxModal = document.getElementById('lightbox-modal');
   const lightboxImg = document.getElementById('lightbox-img');
   const lightboxClose = document.querySelector('.lightbox-close');
@@ -192,72 +293,209 @@ document.addEventListener('DOMContentLoaded', () => {
   const lbNext = document.getElementById('lb-next');
   const lbCounter = document.getElementById('lb-counter');
 
-  // Fall back to the <img> src so a gallery item missing data-src still works.
-  const galleryImages = [...galleryItems].map(
+  const galleryImages = [...slides3D].map(
     item => item.getAttribute('data-src') || item.querySelector('img')?.src
   ).filter(Boolean);
 
+  let activeIndex3D = 0;
+  const totalSlides = slides3D.length;
+
+  // Create pagination dots
+  if (dotsContainer && totalSlides > 0) {
+    dotsContainer.innerHTML = '';
+    for (let i = 0; i < totalSlides; i++) {
+      const dot = document.createElement('button');
+      dot.type = 'button';
+      dot.className = `gallery-dot ${i === 0 ? 'active' : ''}`;
+      dot.setAttribute('aria-label', `Xem ảnh ${i + 1}`);
+      dot.addEventListener('click', () => {
+        activeIndex3D = i;
+        update3DCarousel();
+      });
+      dotsContainer.appendChild(dot);
+    }
+  }
+
+  const update3DCarousel = () => {
+    if (!totalSlides) return;
+
+    slides3D.forEach((slide, i) => {
+      // Calculate circular distance
+      let diff = i - activeIndex3D;
+      if (diff > totalSlides / 2) diff -= totalSlides;
+      if (diff < -totalSlides / 2) diff += totalSlides;
+
+      const absDiff = Math.abs(diff);
+
+      if (diff === 0) {
+        // Active Center Slide
+        slide.style.transform = 'translateX(0%) translateZ(0px) rotateY(0deg) scale(1)';
+        slide.style.opacity = '1';
+        slide.style.zIndex = '100';
+        slide.style.pointerEvents = 'auto';
+        slide.style.filter = 'none';
+        slide.classList.add('is-active');
+      } else if (diff > 0) {
+        // Right Slides
+        const tx = Math.min(diff * 52, 140);
+        const tz = -absDiff * 130;
+        const ry = Math.min(diff * 38, 70);
+        const scale = Math.max(1 - absDiff * 0.14, 0.6);
+        const op = Math.max(1 - absDiff * 0.26, 0);
+
+        slide.style.transform = `translateX(${tx}%) translateZ(${tz}px) rotateY(${ry}deg) scale(${scale})`;
+        slide.style.opacity = op <= 0.05 ? '0' : String(op);
+        slide.style.zIndex = String(100 - absDiff);
+        slide.style.pointerEvents = absDiff <= 2 ? 'auto' : 'none';
+        slide.style.filter = 'brightness(0.85)';
+        slide.classList.remove('is-active');
+      } else {
+        // Left Slides
+        const tx = Math.max(diff * 52, -140);
+        const tz = -absDiff * 130;
+        const ry = Math.max(diff * 38, -70);
+        const scale = Math.max(1 - absDiff * 0.14, 0.6);
+        const op = Math.max(1 - absDiff * 0.26, 0);
+
+        slide.style.transform = `translateX(${tx}%) translateZ(${tz}px) rotateY(${ry}deg) scale(${scale})`;
+        slide.style.opacity = op <= 0.05 ? '0' : String(op);
+        slide.style.zIndex = String(100 - absDiff);
+        slide.style.pointerEvents = absDiff <= 2 ? 'auto' : 'none';
+        slide.style.filter = 'brightness(0.85)';
+        slide.classList.remove('is-active');
+      }
+    });
+
+    // Update dots
+    if (dotsContainer) {
+      const dots = dotsContainer.querySelectorAll('.gallery-dot');
+      dots.forEach((dot, idx) => {
+        dot.classList.toggle('active', idx === activeIndex3D);
+      });
+    }
+  };
+
+  const nextSlide3D = () => {
+    activeIndex3D = (activeIndex3D + 1) % totalSlides;
+    update3DCarousel();
+  };
+
+  const prevSlide3D = () => {
+    activeIndex3D = (activeIndex3D - 1 + totalSlides) % totalSlides;
+    update3DCarousel();
+  };
+
+  if (next3DBtn) next3DBtn.addEventListener('click', (e) => { e.stopPropagation(); nextSlide3D(); });
+  if (prev3DBtn) prev3DBtn.addEventListener('click', (e) => { e.stopPropagation(); prevSlide3D(); });
+
+  // Slide click handling
+  slides3D.forEach((slide, idx) => {
+    slide.setAttribute('role', 'button');
+    slide.setAttribute('tabindex', '0');
+    const label = slide.querySelector('img')?.alt || `Ảnh cưới ${idx + 1}`;
+    slide.setAttribute('aria-label', label);
+
+    slide.addEventListener('click', () => {
+      if (idx === activeIndex3D) {
+        openLightbox(idx);
+      } else {
+        activeIndex3D = idx;
+        update3DCarousel();
+      }
+    });
+
+    slide.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        if (idx === activeIndex3D) {
+          openLightbox(idx);
+        } else {
+          activeIndex3D = idx;
+          update3DCarousel();
+        }
+      }
+    });
+  });
+
+  // Touch Swipe for 3D Carousel stage
+  if (stage3D) {
+    let stageTouchStartX = 0;
+    let stageTouchStartY = 0;
+    stage3D.addEventListener('touchstart', (e) => {
+      stageTouchStartX = e.touches[0].clientX;
+      stageTouchStartY = e.touches[0].clientY;
+    }, { passive: true });
+
+    stage3D.addEventListener('touchend', (e) => {
+      const dx = e.changedTouches[0].clientX - stageTouchStartX;
+      const dy = e.changedTouches[0].clientY - stageTouchStartY;
+      if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) {
+        if (dx < 0) nextSlide3D(); else prevSlide3D();
+      }
+    }, { passive: true });
+  }
+
+  // Initialize 3D carousel
+  update3DCarousel();
+
+  // Auto-play 3D carousel gently every 4.5s
+  let autoSlideTimer = setInterval(nextSlide3D, 4500);
+  if (stage3D) {
+    stage3D.addEventListener('mouseenter', () => clearInterval(autoSlideTimer));
+    stage3D.addEventListener('mouseleave', () => {
+      clearInterval(autoSlideTimer);
+      autoSlideTimer = setInterval(nextSlide3D, 4500);
+    });
+    stage3D.addEventListener('touchstart', () => clearInterval(autoSlideTimer), { passive: true });
+  }
+
+  // LIGHTBOX LOGIC
   let currentIndex = 0;
   let fadeTimer = null;
   let lastFocused = null;
 
+  const paintSlide = () => {
+    if (!lightboxImg) return;
+    lightboxImg.src = galleryImages[currentIndex];
+    if (lbCounter) lbCounter.textContent = `${currentIndex + 1} / ${galleryImages.length}`;
+  };
+
+  const openLightbox = (index) => {
+    if (!lightboxModal || !lightboxImg || !galleryImages.length) return;
+    if (fadeTimer) { clearTimeout(fadeTimer); fadeTimer = null; }
+    lastFocused = document.activeElement;
+    currentIndex = index;
+    lightboxImg.style.opacity = '1';
+    paintSlide();
+    lightboxModal.classList.add('active');
+    lockScroll();
+    if (lightboxClose) lightboxClose.focus();
+  };
+
+  const closeLightbox = () => {
+    if (!lightboxModal) return;
+    if (fadeTimer) { clearTimeout(fadeTimer); fadeTimer = null; }
+    lightboxModal.classList.remove('active');
+    unlockScroll();
+    if (lastFocused && typeof lastFocused.focus === 'function') lastFocused.focus();
+  };
+
+  const goTo = (step) => {
+    currentIndex = (currentIndex + step + galleryImages.length) % galleryImages.length;
+    if (fadeTimer) clearTimeout(fadeTimer);
+    if (lightboxImg) lightboxImg.style.opacity = '0';
+    fadeTimer = setTimeout(() => {
+      paintSlide();
+      if (lightboxImg) lightboxImg.style.opacity = '1';
+      fadeTimer = null;
+    }, 150);
+  };
+
+  const showPrev = () => goTo(-1);
+  const showNext = () => goTo(1);
+
   if (lightboxModal && lightboxImg && galleryImages.length) {
     lightboxImg.style.transition = 'opacity 0.15s ease';
-
-    const paintSlide = () => {
-      lightboxImg.src = galleryImages[currentIndex];
-      if (lbCounter) lbCounter.textContent = `${currentIndex + 1} / ${galleryImages.length}`;
-    };
-
-    const openLightbox = (index) => {
-      // A pending fade from an earlier swipe would otherwise overwrite the
-      // image we are about to show.
-      if (fadeTimer) { clearTimeout(fadeTimer); fadeTimer = null; }
-      lastFocused = document.activeElement;
-      currentIndex = index;
-      lightboxImg.style.opacity = '1';
-      paintSlide();
-      lightboxModal.classList.add('active');
-      lockScroll();
-      if (lightboxClose) lightboxClose.focus();
-    };
-
-    const closeLightbox = () => {
-      if (fadeTimer) { clearTimeout(fadeTimer); fadeTimer = null; }
-      lightboxModal.classList.remove('active');
-      unlockScroll();
-      if (lastFocused && typeof lastFocused.focus === 'function') lastFocused.focus();
-    };
-
-    const goTo = (step) => {
-      currentIndex = (currentIndex + step + galleryImages.length) % galleryImages.length;
-      if (fadeTimer) clearTimeout(fadeTimer);
-      lightboxImg.style.opacity = '0';
-      fadeTimer = setTimeout(() => {
-        paintSlide();
-        lightboxImg.style.opacity = '1';
-        fadeTimer = null;
-      }, 150);
-    };
-
-    const showPrev = () => goTo(-1);
-    const showNext = () => goTo(1);
-
-    galleryItems.forEach((item, index) => {
-      // The items are <div>s — make them reachable and operable by keyboard.
-      item.setAttribute('role', 'button');
-      item.setAttribute('tabindex', '0');
-      const label = item.querySelector('img')?.alt;
-      if (label) item.setAttribute('aria-label', `Xem ${label}`);
-
-      item.addEventListener('click', () => openLightbox(index));
-      item.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          openLightbox(index);
-        }
-      });
-    });
 
     if (lightboxClose) lightboxClose.addEventListener('click', closeLightbox);
     if (lbPrev) lbPrev.addEventListener('click', (e) => { e.stopPropagation(); showPrev(); });
@@ -267,7 +505,6 @@ document.addEventListener('DOMContentLoaded', () => {
       if (e.target === lightboxModal) closeLightbox();
     });
 
-    // Keyboard navigation for lightbox
     document.addEventListener('keydown', (e) => {
       if (!lightboxModal.classList.contains('active')) return;
       if (e.key === 'Escape') closeLightbox();
@@ -275,17 +512,15 @@ document.addEventListener('DOMContentLoaded', () => {
       if (e.key === 'ArrowRight') showNext();
     });
 
-    // Touch swipe for lightbox — ignore mostly-vertical drags so scrolling the
-    // overlay does not register as a swipe.
-    let touchStartX = 0;
-    let touchStartY = 0;
+    let lbTouchStartX = 0;
+    let lbTouchStartY = 0;
     lightboxModal.addEventListener('touchstart', (e) => {
-      touchStartX = e.touches[0].clientX;
-      touchStartY = e.touches[0].clientY;
+      lbTouchStartX = e.touches[0].clientX;
+      lbTouchStartY = e.touches[0].clientY;
     }, { passive: true });
     lightboxModal.addEventListener('touchend', (e) => {
-      const dx = e.changedTouches[0].clientX - touchStartX;
-      const dy = e.changedTouches[0].clientY - touchStartY;
+      const dx = e.changedTouches[0].clientX - lbTouchStartX;
+      const dy = e.changedTouches[0].clientY - lbTouchStartY;
       if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) {
         if (dx < 0) showNext(); else showPrev();
       }

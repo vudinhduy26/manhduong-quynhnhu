@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Minimalism Dark Red Wedding Theme Styles
+   Minimalism Đỏ Đô Wedding Theme Styles
    Mạnh Dưỡng & Quỳnh Như | 18.10.2026
    ========================================================================== */
 
@@ -7,28 +7,35 @@
    index.html — an @import here would serialise the two requests. */
 
 :root {
-  --bg-dark: #1f0507;
-  --bg-main: #511419;
-  --bg-accent: #6e1a20;
-  --bg-mid: #2d080b;
+  /* Nền kem ngà + đỏ đô + chữ kem trên nền tối + điểm nhấn vàng đồng */
+  --bg-cream: #fff7eb;
+  --bg-cream-soft: #fdf1e0;
+  --red: #511419;
+  --red-deep: #380a0e;
+  --red-darkest: #330000;
+  --red-accent: #6e1a20;
+  --red-soft: rgba(81, 20, 25, 0.08);
+  --red-border: rgba(81, 20, 25, 0.16);
+  --red-border-strong: rgba(81, 20, 25, 0.32);
   --card-bg: rgba(255, 250, 243, 0.97);
-  --card-dark: rgba(30, 6, 9, 0.72);
-  --text-gold: #c9a24a;
-  --text-gold-light: #f0dfa0;
-  --text-gold-dim: rgba(201, 162, 74, 0.6);
   --text-dark: #511419;
-  --text-muted: rgba(81, 20, 25, 0.72);
-  --text-light: #f5efe6;
-  --text-light-dim: rgba(245, 239, 230, 0.72);
-  --border-gold: rgba(201, 162, 74, 0.3);
-  --border-gold-strong: rgba(201, 162, 74, 0.55);
-  --shadow-dark: 0 20px 60px rgba(0, 0, 0, 0.6);
-  --shadow-gold: 0 6px 30px rgba(201, 162, 74, 0.2);
-  --font-script: 'Great Vibes', cursive;
-  --font-serif: 'Cormorant Garamond', 'Playfair Display', serif;
-  --font-serif-alt: 'Playfair Display', serif;
+  --text-muted: rgba(81, 20, 25, 0.68);
+  --text-faint: rgba(81, 20, 25, 0.45);
+  --text-cream: #ece4d8;
+  --text-cream-dim: rgba(236, 228, 216, 0.72);
+  --text-cream-faint: rgba(236, 228, 216, 0.45);
+  --gold: #c9a24a;
+  --gold-light: #e4c98d;
+  --gold-dim: rgba(201, 162, 74, 0.65);
+  --shadow-card: 4px 4px 14px rgba(81, 20, 25, 0.18);
+  --shadow-soft: 0 10px 30px rgba(81, 20, 25, 0.1);
+
+  --font-script: 'Viaoda Libre', 'The Nautigal', cursive;
+  --font-amp: 'Ms Madi', cursive;
+  --font-serif: 'EB Garamond', 'Cormorant Garamond', serif;
+  --font-label: 'Cormorant Garamond', serif;
   --font-body: 'Lora', Georgia, serif;
-  --font-sans: 'Montserrat', sans-serif;
+  --font-caps: 'Uchen', 'Cormorant Garamond', serif;
 }
 
 * {
@@ -40,16 +47,16 @@
 html {
   scroll-behavior: smooth;
   font-family: var(--font-body);
-  background-color: var(--bg-dark);
-  color: var(--text-light);
+  background-color: #ffffff;
+  color: var(--text-dark);
   overflow-x: hidden;
 }
 
 body {
   min-height: 100vh;
   position: relative;
-  background: var(--bg-dark);
   overflow-x: hidden;
+  background-color: #ffffff;
 }
 
 /* Applied while the envelope overlay or the lightbox is on screen. */
@@ -61,56 +68,52 @@ html.no-scroll body {
 /* Focus ring — needed now that gallery items and the lightbox controls are
    keyboard-operable. */
 :focus-visible {
-  outline: 2px solid var(--text-gold);
+  outline: 2px solid var(--red);
   outline-offset: 3px;
 }
 
-/* ── NỀN NHUNG ĐỎ ──────────────────────────────────────────────────────────
-   Dựng bằng CSS thay vì ảnh nền: 0 byte tải về, nét ở mọi độ phân giải, và
-   không phải mượn tài nguyên của bên khác.
-   Ba tầng chồng lên nhau:
-     body        — các mảng đỏ loang lớn (vệt sáng của nhung)
-     body::before— viền tối dần ở rìa (vignette)
-     body::after — vân nhiễu 2 cỡ, hoà trộn overlay để tạo sợi vải
+/* ── KHUNG THIỆP TRUNG TÂM NỀN GIẤY KEM (2 BÊN MÀU TRẮNG) ─────────────────
+   Trang web bao ngoài màu trắng tinh khiết (#ffffff).
+   Khung thiệp ở giữa có bề rộng tiêu chuẩn (max-width 480px / 520px),
+   nền kem ngà (#fff7eb) + vân giấy cổ + viền nhẹ sang trọng giống hệt mẫu.
    ───────────────────────────────────────────────────────────────────────── */
-body {
-  background-color: var(--bg-dark);
+#main-content {
+  width: 100%;
+  max-width: 580px;
+  margin: 0 auto;
+  min-height: 100vh;
+  position: relative;
+  background-color: var(--bg-cream);
   background-image:
-    radial-gradient(ellipse 85% 55% at 50% 0%,   rgba(150, 26, 34, 0.50), transparent 65%),
-    radial-gradient(ellipse 70% 45% at 12% 28%,  rgba(128, 20, 28, 0.42), transparent 62%),
-    radial-gradient(ellipse 65% 42% at 90% 44%,  rgba(134, 22, 30, 0.38), transparent 62%),
-    radial-gradient(ellipse 75% 45% at 25% 72%,  rgba(120, 18, 26, 0.34), transparent 62%),
-    radial-gradient(ellipse 80% 50% at 70% 96%,  rgba(126, 20, 28, 0.36), transparent 65%),
-    linear-gradient(168deg, #3d0508 0%, #571016 42%, #2c0407 100%);
+    radial-gradient(ellipse 55% 38% at 12% 8%,  rgba(178, 138, 78, 0.10), transparent 60%),
+    radial-gradient(ellipse 48% 34% at 88% 20%, rgba(150, 112, 60, 0.09), transparent 58%),
+    radial-gradient(ellipse 52% 38% at 18% 62%, rgba(160, 120, 68, 0.09), transparent 58%),
+    radial-gradient(ellipse 58% 42% at 92% 82%, rgba(140, 100, 54, 0.08), transparent 60%),
+    radial-gradient(ellipse 65% 46% at 50% 42%, rgba(201, 162, 74, 0.05), transparent 65%);
   background-repeat: no-repeat;
+  box-shadow: 0 0 45px rgba(0, 0, 0, 0.08), 0 0 1px rgba(81, 20, 25, 0.15);
+  border-left: 1px solid rgba(81, 20, 25, 0.1);
+  border-right: 1px solid rgba(81, 20, 25, 0.1);
+  overflow-x: clip;
 }
 
-/* Tối dần ở bốn rìa, giữ ánh sáng dồn vào giữa trang */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background:
-    radial-gradient(ellipse 115% 80% at 50% 42%,
-      transparent 22%,
-      rgba(18, 1, 3, 0.40) 68%,
-      rgba(10, 0, 2, 0.80) 100%),
-    radial-gradient(ellipse at 50% 50%, rgba(201, 162, 74, 0.05) 0%, transparent 70%);
-  pointer-events: none;
-  z-index: 0;
+@media (min-width: 768px) {
+  #main-content {
+    max-width: 640px;
+  }
 }
 
-/* Vân nhung: một lớp mây loang cỡ lớn + một lớp hạt mịn như sợi vải */
-body::after {
+/* Vân giấy mịn bên trong khung thiệp */
+#main-content::after {
   content: '';
-  position: fixed;
+  position: absolute;
   inset: 0;
   background-image:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='700' height='700'%3E%3Cfilter id='v'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.012' numOctaves='5' seed='11' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='700' height='700' filter='url(%23v)' opacity='0.55'/%3E%3C/svg%3E"),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.30'/%3E%3C/svg%3E");
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='700' height='700'%3E%3Cfilter id='v'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.012' numOctaves='5' seed='7' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='700' height='700' filter='url(%23v)' opacity='0.5'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
   background-size: 680px 680px, 180px 180px;
-  mix-blend-mode: overlay;
-  opacity: 0.62;
+  mix-blend-mode: multiply;
+  opacity: 0.14;
   pointer-events: none;
   z-index: 0;
 }
@@ -120,24 +123,15 @@ body::after {
   width: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--bg-dark);
+  background: var(--bg-cream);
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--bg-accent);
+  background: var(--red-border-strong);
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--text-gold);
+  background: var(--red);
 }
-
-/* Typography Utility */
-.font-script { font-family: var(--font-script); }
-.font-serif { font-family: var(--font-serif); }
-.font-sans { font-family: var(--font-sans); }
-
-.text-gold { color: var(--text-gold); }
-.text-gold-light { color: var(--text-gold-light); }
-.bg-gold { background-color: var(--text-gold); }
 
 /* ==========================================================================
    1. LANDING ENVELOPE OVERLAY
@@ -147,7 +141,7 @@ body::after {
   position: fixed;
   inset: 0;
   z-index: 9999;
-  background: linear-gradient(to bottom right, #6e1a20, #511419, #280709);
+  background: linear-gradient(to bottom right, var(--red-accent), var(--red), var(--red-deep));
   display: flex;
   align-items: center;
   justify-content: center;
@@ -181,7 +175,7 @@ body::after {
 }
 
 .page-particles.on {
-  opacity: 0.5;
+  opacity: 0.35;
 }
 
 .particle {
@@ -214,7 +208,7 @@ body::after {
   position: relative;
   z-index: 10;
   width: 92%;
-  max-width: 500px;
+  max-width: 480px;
   margin: 0 auto;
   animation: envelope-entrance 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
 }
@@ -226,14 +220,14 @@ body::after {
 
 .wax-seal {
   position: absolute;
-  top: -34px;
+  top: -30px;
   left: 50%;
   transform: translateX(-50%);
-  width: 68px;
-  height: 68px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
-  background: radial-gradient(circle at 30% 30%, #8a2028, #380a0e);
-  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.7), inset 0 2px 6px rgba(255, 255, 255, 0.25), 0 0 0 3px rgba(201, 162, 74, 0.35);
+  background: radial-gradient(circle at 30% 30%, var(--red), var(--red-darkest));
+  box-shadow: 0 4px 20px rgba(81, 20, 25, 0.5), inset 0 2px 4px rgba(255, 255, 255, 0.3);
   z-index: 30;
   display: flex;
   align-items: center;
@@ -242,59 +236,54 @@ body::after {
 }
 
 .wax-seal svg {
-  width: 32px;
-  height: 32px;
-  fill: #fae9d8;
-  filter: drop-shadow(0 2px 3px rgba(0,0,0,0.4));
+  width: 28px;
+  height: 28px;
+  fill: #f3e8de;
+  filter: drop-shadow(0 2px 3px rgba(0,0,0,0.35));
 }
 
 @keyframes seal-pulse {
-  0%, 100% { transform: translateX(-50%) scale(1); box-shadow: 0 8px 28px rgba(0,0,0,0.7), inset 0 2px 6px rgba(255,255,255,0.25), 0 0 0 3px rgba(201,162,74,0.35); }
-  50% { transform: translateX(-50%) scale(1.07); box-shadow: 0 10px 36px rgba(0,0,0,0.75), inset 0 2px 6px rgba(255,255,255,0.25), 0 0 0 5px rgba(201,162,74,0.5), 0 0 20px rgba(201,162,74,0.2); }
+  0%, 100% { transform: translateX(-50%) scale(1); }
+  50% { transform: translateX(-50%) scale(1.06); }
 }
 
 .envelope-card {
-  background: var(--card-bg);
-  border: 1px solid rgba(201, 162, 74, 0.45);
-  border-radius: 18px;
-  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255,250,243,0.8);
-  padding: 88px 32px 44px;
+  background: rgba(255, 250, 243, 0.98);
+  border: 1px solid var(--red-border);
+  border-radius: 8px;
+  box-shadow: 0 25px 60px -12px rgba(0, 0, 0, 0.45), 0 8px 24px rgba(0, 0, 0, 0.2), 0 0 40px rgba(81, 20, 25, 0.15);
+  padding: 76px 32px 40px;
   text-align: center;
   position: relative;
   overflow: hidden;
   color: var(--text-dark);
 }
 
-/* Corner ornaments */
-.envelope-card::before {
-  content: '';
-  position: absolute;
-  top: 12px; left: 12px; right: 12px; bottom: 12px;
-  border: 1px solid rgba(201, 162, 74, 0.25);
-  border-radius: 12px;
-  pointer-events: none;
+.envelope-flourish {
+  display: block;
+  font-size: 1.2rem;
+  color: var(--gold);
+  margin-bottom: 10px;
+  opacity: 0.85;
 }
 
 .envelope-title {
   font-family: var(--font-script);
-  font-size: 3rem;
+  font-size: 2.6rem;
   color: var(--text-dark);
   font-weight: 400;
-  line-height: 1.15;
-  margin-bottom: 4px;
+  line-height: 1.2;
+  margin-bottom: 2px;
   letter-spacing: 0.5px;
 }
 
 .envelope-amp {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-amp);
   font-size: 1.6rem;
-  font-style: italic;
-  font-weight: 300;
+  font-weight: 400;
   color: var(--text-muted);
-  letter-spacing: 8px;
-  margin: 4px 0;
+  margin: 2px 0;
   display: block;
-  text-transform: uppercase;
 }
 
 .envelope-divider {
@@ -302,52 +291,67 @@ body::after {
   align-items: center;
   justify-content: center;
   gap: 12px;
-  margin: 16px 0;
+  margin: 18px 0;
 }
 
 .envelope-divider .line {
   width: 40px;
   height: 1px;
-  background: linear-gradient(to right, transparent, var(--text-dark));
+  background: linear-gradient(to right, transparent, var(--red-border-strong));
 }
 .envelope-divider .line.right {
-  background: linear-gradient(to left, transparent, var(--text-dark));
+  background: linear-gradient(to left, transparent, var(--red-border-strong));
+}
+
+.envelope-divider-mark {
+  color: var(--gold);
+  font-size: 0.9rem;
+  opacity: 0.8;
 }
 
 .envelope-date {
-  font-family: var(--font-serif);
+  font-family: var(--font-body);
   font-size: 1rem;
   color: var(--text-muted);
-  margin-bottom: 20px;
+  margin-bottom: 6px;
   font-style: italic;
-  letter-spacing: 1px;
+  letter-spacing: 0.5px;
+}
+
+.envelope-invite-label {
+  font-family: var(--font-label);
+  font-size: 0.95rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin-bottom: 26px;
 }
 
 .btn-open-invite {
-  background-color: var(--text-dark);
-  color: #fae9d8;
-  border: 1px solid rgba(201,162,74,0.6);
-  padding: 15px 46px;
-  font-size: 1rem;
-  font-family: var(--font-sans);
+  background-color: var(--red);
+  color: #f3e8de;
+  border: none;
+  padding: 14px 42px;
+  font-size: 0.92rem;
+  font-family: var(--font-body);
   font-weight: 600;
   letter-spacing: 2px;
   text-transform: uppercase;
   border-radius: 50px;
   cursor: pointer;
-  box-shadow: 0 6px 24px rgba(0,0,0,0.4), 0 0 0 1px rgba(201,162,74,0.2);
+  box-shadow: 0 4px 14px rgba(81, 20, 25, 0.35);
   position: relative;
   overflow: hidden;
   transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   display: inline-flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
 }
 
 .btn-open-invite:hover {
   transform: translateY(-3px) scale(1.02);
-  background-color: var(--bg-accent);
-  box-shadow: 0 14px 36px rgba(0,0,0,0.5), 0 0 0 1px rgba(201,162,74,0.4), 0 0 25px rgba(201,162,74,0.15);
+  background-color: var(--red-accent);
+  box-shadow: 0 10px 28px rgba(81, 20, 25, 0.45);
 }
 
 .btn-open-invite::after {
@@ -368,7 +372,7 @@ body::after {
 }
 
 /* ==========================================================================
-   2. FLOATING MUSIC PLAYER & NAVIGATION
+   2. FLOATING MUSIC PLAYER
    ========================================================================== */
 
 .music-player-floating {
@@ -382,39 +386,28 @@ body::after {
 }
 
 .music-btn {
-  width: 56px;
-  height: 56px;
+  width: 52px;
+  height: 52px;
   border-radius: 50%;
-  background: rgba(30, 5, 8, 0.88);
-  border: 2px solid rgba(201,162,74,0.7);
-  color: var(--text-gold-light);
+  background: var(--red);
+  border: 1px solid rgba(236, 228, 216, 0.3);
+  color: var(--text-cream);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(201,162,74,0.1);
-  backdrop-filter: blur(10px);
-  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+  box-shadow: 0 8px 24px rgba(81, 20, 25, 0.35);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
   position: relative;
 }
 
 .music-btn:hover {
-  border-color: var(--text-gold);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.5), 0 0 20px rgba(201,162,74,0.25);
-}
-
-.music-btn::before {
-  content: '';
-  position: absolute;
-  inset: -6px;
-  border-radius: 50%;
-  border: 1px solid rgba(201,162,74,0.15);
-  pointer-events: none;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(81, 20, 25, 0.45);
 }
 
 .music-btn.playing {
   animation: spin 8s linear infinite;
-  border-color: var(--text-gold);
 }
 
 @keyframes spin {
@@ -423,18 +416,18 @@ body::after {
 }
 
 /* ==========================================================================
-   3. MAIN INVITATION LAYOUT & SECTIONS
+   3. MAIN LAYOUT
    ========================================================================== */
 
 .container {
   width: 100%;
-  max-width: 900px;
+  max-width: 720px;
   margin: 0 auto;
   padding: 0 20px;
 }
 
 .section {
-  padding: 90px 0;
+  padding: 64px 0;
   position: relative;
   z-index: 1;
 }
@@ -442,7 +435,7 @@ body::after {
 /* Scroll-reveal animation */
 .reveal {
   opacity: 0;
-  transform: translateY(35px);
+  transform: translateY(30px);
   transition: opacity 0.7s ease, transform 0.7s ease;
 }
 
@@ -457,24 +450,23 @@ body::after {
 
 .section-title {
   text-align: center;
-  margin-bottom: 56px;
+  margin-bottom: 44px;
 }
 
 .section-subtitle {
   font-family: var(--font-script);
-  font-size: 2.6rem;
-  color: var(--text-gold);
+  font-size: 2.1rem;
+  color: var(--red);
   display: block;
-  margin-bottom: 2px;
-  filter: drop-shadow(0 2px 8px rgba(201,162,74,0.3));
+  margin-bottom: 4px;
 }
 
 .section-main-title {
-  font-family: var(--font-serif);
-  font-size: 1.4rem;
-  font-weight: 400;
-  color: rgba(245,239,230,0.65);
-  letter-spacing: 5px;
+  font-family: var(--font-label);
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  letter-spacing: 4px;
   text-transform: uppercase;
 }
 
@@ -483,343 +475,689 @@ body::after {
   align-items: center;
   justify-content: center;
   gap: 10px;
-  margin: 18px auto 0;
+  margin: 16px auto 0;
 }
 
 .title-line::before, .title-line::after {
   content: '';
   display: block;
-  width: 60px;
+  width: 50px;
   height: 1px;
-  background: linear-gradient(to right, transparent, var(--text-gold));
+  background: linear-gradient(to right, transparent, var(--gold));
 }
 
 .title-line::after {
-  background: linear-gradient(to left, transparent, var(--text-gold));
+  background: linear-gradient(to left, transparent, var(--gold));
 }
 
 .title-ornament {
-  color: var(--text-gold);
-  font-size: 18px;
-  filter: drop-shadow(0 0 6px rgba(201,162,74,0.4));
+  color: var(--gold);
+  font-size: 16px;
   display: inline-block;
 }
 
 /* ==========================================================================
-   4. HERO SECTION & COUNTDOWN
+   4. ANIMATIONS & FLOATING DECORATIONS
+   ========================================================================== */
+
+@keyframes drFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.float-anim {
+  animation: drFloat 6s ease-in-out infinite;
+  will-change: transform;
+}
+
+.float-anim-delay-1 {
+  animation: drFloat 6.5s ease-in-out infinite;
+  animation-delay: 0.4s;
+  will-change: transform;
+}
+
+.float-anim-delay-2 {
+  animation: drFloat 5s ease-in-out infinite;
+  animation-delay: 0.2s;
+  will-change: transform;
+}
+
+.float-anim-delay-3 {
+  animation: drFloat 5.5s ease-in-out infinite;
+  animation-delay: 0.6s;
+  will-change: transform;
+}
+
+/* Watermark Background (Nền ẩn hoàng cung) */
+.hero-palace-watermark {
+  position: absolute;
+  pointer-events: none;
+  left: 50%;
+  top: 10%;
+  width: 140%;
+  max-width: 800px;
+  transform: translateX(-50%);
+  opacity: 0.08;
+  z-index: 0;
+  user-select: none;
+}
+
+.section-palace-watermark {
+  position: absolute;
+  pointer-events: none;
+  left: 50%;
+  top: -8%;
+  width: 130%;
+  max-width: 750px;
+  transform: translateX(-50%);
+  opacity: 0.07;
+  z-index: 0;
+  user-select: none;
+}
+
+/* ==========================================================================
+   4. HERO SECTION
    ========================================================================== */
 
 .hero-section {
-  padding-top: 70px;
-  padding-bottom: 90px;
+  padding-top: 48px;
+  padding-bottom: 48px;
   text-align: center;
+  position: relative;
+  overflow: hidden;
 }
 
-.hero-photo-wrapper {
+.hero-subtitle-tag {
+  font-family: var(--font-label);
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: #590310;
+  margin-bottom: 24px;
+}
+
+/* -- Phong bì mở + hoa + ảnh cưới lồng bên trong -- */
+.hero-envelope {
+  position: relative;
+  width: 82%;
+  max-width: 320px;
+  margin: 0 auto 36px;
+}
+
+@media (min-width: 768px) {
+  .hero-envelope {
+    max-width: 380px;
+  }
+}
+
+.hero-envelope-inner {
   position: relative;
   width: 100%;
-  max-width: 520px;
-  margin: 0 auto 40px;
-  border-radius: 24px;
-  padding: 8px;
-  background: linear-gradient(140deg, rgba(201,162,74,0.55) 0%, rgba(201,162,74,0.1) 40%, rgba(201,162,74,0.05) 60%, rgba(201,162,74,0.4) 100%);
-  box-shadow: var(--shadow-dark), var(--shadow-gold);
+  aspect-ratio: 888 / 1024;
 }
 
-.hero-photo-wrapper::before {
-  content: '';
+.hero-envelope-photo-bg {
   position: absolute;
-  inset: -1px;
-  border-radius: 25px;
-  padding: 1px;
-  background: linear-gradient(140deg, rgba(201,162,74,0.7), rgba(201,162,74,0.1) 40%, rgba(201,162,74,0.1) 60%, rgba(201,162,74,0.6));
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  z-index: 10;
   pointer-events: none;
+}
+
+.hero-envelope-photo-card {
+  position: absolute;
+  left: 33%;
+  top: -2%;
+  width: 64%;
+  z-index: 20;
+}
+
+.hero-envelope-photo-frame {
+  aspect-ratio: 221 / 309;
+  transform: rotate(12deg);
+  border: 6px solid #ffffff;
+  background-color: #ffffff;
+  box-shadow: 2px 4px 16px rgba(0, 0, 0, 0.28);
+  border-radius: 2px;
+  overflow: hidden;
 }
 
 .hero-photo {
   width: 100%;
-  height: auto;
-  max-height: 680px;
+  height: 100%;
   object-fit: cover;
-  border-radius: 18px;
   display: block;
-  transition: transform 0.6s ease;
 }
 
-.hero-photo:hover {
-  transform: scale(1.01);
-}
-
-.hero-names {
-  font-family: var(--font-script);
-  font-size: 3.6rem;
-  font-weight: 400;
-  color: var(--text-gold-light);
-  margin-bottom: 10px;
-  line-height: 1.15;
-  filter: drop-shadow(0 2px 10px rgba(201,162,74,0.25));
-}
-
-.hero-names span {
-  font-family: 'Cormorant Garamond', serif;
-  font-style: italic;
-  font-weight: 300;
-  font-size: 2rem;
-  color: rgba(201,162,74,0.7);
-  display: inline-block;
-  margin: 0 14px;
-  letter-spacing: 6px;
-  text-transform: uppercase;
-  vertical-align: middle;
-}
-
-.hero-subtitle-tag {
-  font-family: var(--font-sans);
-  font-size: 0.75rem;
-  letter-spacing: 6px;
-  text-transform: uppercase;
-  color: var(--text-gold);
-  margin-bottom: 28px;
-  opacity: 0.85;
-}
-
-/* Countdown Timer */
-.countdown-container {
-  display: flex;
-  justify-content: center;
-  gap: 14px;
-  margin-top: 36px;
-}
-
-.countdown-box {
-  background: rgba(15, 3, 5, 0.65);
-  border: 1px solid rgba(201,162,74,0.25);
-  border-radius: 14px;
-  padding: 18px 18px 14px;
-  min-width: 84px;
-  backdrop-filter: blur(12px);
-  box-shadow: 0 8px 28px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.05);
-  position: relative;
-  overflow: hidden;
-  transition: border-color 0.3s, box-shadow 0.3s;
-}
-
-.countdown-box::before {
-  content: '';
+.hero-envelope-flower-wrap {
   position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 1px;
-  background: linear-gradient(to right, transparent, rgba(201,162,74,0.5), transparent);
-}
-
-.countdown-value {
-  font-family: var(--font-sans);
-  font-size: 2rem;
-  font-weight: 700;
-  color: var(--text-gold-light);
-  line-height: 1;
-  letter-spacing: -1px;
-}
-
-.countdown-label {
-  font-family: var(--font-sans);
-  font-size: 0.7rem;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  color: var(--text-gold-dim);
-  margin-top: 8px;
-}
-
-/* ==========================================================================
-   5. PARENTS & FAMILY SECTION
-   ========================================================================== */
-
-.parents-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 28px;
-}
-
-.family-card {
-  background: rgba(15, 3, 5, 0.6);
-  border: 1px solid rgba(201,162,74,0.22);
-  border-radius: 22px;
-  padding: 40px 30px;
-  text-align: center;
-  backdrop-filter: blur(14px);
-  box-shadow: 0 20px 50px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.04);
-  transition: transform 0.4s cubic-bezier(0.175,0.885,0.32,1.275), box-shadow 0.4s ease, border-color 0.4s ease;
-  position: relative;
-  overflow: hidden;
-}
-
-.family-card::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(201,162,74,0.04) 0%, transparent 50%);
+  left: -2%;
+  top: -12%;
+  width: 44%;
+  z-index: 25;
   pointer-events: none;
 }
 
-.family-card:hover {
-  transform: translateY(-6px);
-  border-color: rgba(201,162,74,0.5);
-  box-shadow: 0 28px 60px rgba(0,0,0,0.5), 0 0 30px rgba(201,162,74,0.08);
+.hero-envelope-flowers {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  transform: rotate(-17deg);
+  filter: drop-shadow(3px 4px 6px rgba(0, 0, 0, 0.32));
 }
 
-.family-tag {
-  display: inline-block;
-  background: linear-gradient(135deg, rgba(201,162,74,0.2), rgba(201,162,74,0.08));
-  color: var(--text-gold);
-  padding: 7px 22px;
-  border-radius: 50px;
-  font-family: var(--font-sans);
-  font-size: 0.72rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 3px;
+.hero-envelope-cover {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
+  z-index: 30;
+  pointer-events: none;
+}
+
+.hero-names-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  margin-top: 18px;
   margin-bottom: 22px;
-  border: 1px solid rgba(201, 162, 74, 0.35);
-  box-shadow: 0 2px 12px rgba(201,162,74,0.1);
 }
 
-.parents-names {
-  margin-bottom: 24px;
-  padding-bottom: 20px;
-  border-bottom: 1px solid rgba(201,162,74,0.12);
-}
-
-.parents-names p {
-  font-size: 1rem;
-  color: rgba(245, 239, 230, 0.82);
-  margin-bottom: 5px;
-  font-family: var(--font-body);
-}
-
-.couple-name {
+.hero-name {
   font-family: var(--font-script);
-  font-size: 2.6rem;
-  color: var(--text-gold-light);
+  font-size: clamp(34px, 8.5vw, 48px);
   font-weight: 400;
-  margin-bottom: 2px;
-  filter: drop-shadow(0 2px 6px rgba(201,162,74,0.2));
+  color: var(--red);
+  line-height: 1.15;
+  letter-spacing: 0.5px;
+  text-align: center;
 }
 
-.couple-role {
-  font-family: var(--font-sans);
-  font-size: 0.72rem;
-  letter-spacing: 4px;
-  text-transform: uppercase;
-  color: var(--text-gold);
-  margin-bottom: 16px;
-  display: block;
-  opacity: 0.8;
+.hero-amp {
+  font-family: 'Ms Madi', 'The Nautigal', cursive;
+  font-size: clamp(36px, 9vw, 50px);
+  font-weight: 400;
+  color: var(--gold);
+  line-height: 1;
+  margin: 4px 0;
+  display: inline-block;
+  user-select: none;
 }
 
-.couple-address {
-  font-size: 0.9rem;
-  color: rgba(245, 239, 230, 0.6);
+.hero-quote {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  font-family: var(--font-body);
+  font-style: italic;
+  margin-bottom: 24px;
+}
+
+.hero-date-line {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  margin-top: 14px;
+  gap: 14px;
+}
+
+.hero-date-rule {
+  width: 36px;
+  height: 1px;
+  background: var(--red-border-strong);
+}
+
+.hero-date-text {
+  font-family: var(--font-label);
+  font-size: 1rem;
+  letter-spacing: 2px;
+  color: var(--text-dark);
+  white-space: nowrap;
 }
 
 /* ==========================================================================
-   6. CEREMONY & MAP SECTION
+   5. INFO CARD (dùng chung cho Thông Tin Lễ Cưới & Chương Trình Tiệc Cưới)
    ========================================================================== */
 
-.ceremony-card {
-  background: var(--card-bg);
-  color: var(--text-dark);
-  border-radius: 26px;
-  padding: 54px 40px;
-  text-align: center;
-  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(201,162,74,0.2);
+.card-flower-decor-left {
+  position: absolute;
+  left: -6%;
+  top: -12px;
+  width: 30%;
+  max-width: 120px;
+  pointer-events: none;
+  z-index: 20;
+}
+
+.card-flower-decor-right {
+  position: absolute;
+  right: -6%;
+  bottom: 22%;
+  width: 32%;
+  max-width: 130px;
+  pointer-events: none;
+  z-index: 20;
+}
+
+.card-flower-decor-left img,
+.card-flower-decor-right img {
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(3px 4px 8px rgba(0, 0, 0, 0.3));
+}
+
+.info-card {
   position: relative;
+  background: linear-gradient(170deg, var(--red-accent) 0%, var(--red) 55%, var(--red-deep) 100%);
+  border-radius: 14px;
+  padding: 40px 24px 36px;
+  text-align: center;
+  box-shadow: 4px 8px 24px rgba(81, 20, 25, 0.25), 0 20px 45px rgba(81, 20, 25, 0.22);
+  color: var(--text-cream);
   overflow: hidden;
 }
 
-.ceremony-card::before {
-  content: '';
-  position: absolute;
-  top: 14px; left: 14px; right: 14px; bottom: 14px;
-  border: 1px solid rgba(81, 20, 25, 0.12);
-  border-radius: 16px;
-  pointer-events: none;
+.info-card-flourish {
+  display: block;
+  color: var(--gold);
+  font-size: 1.1rem;
+  margin-bottom: 10px;
 }
 
-.ceremony-card::after {
-  content: '';
-  position: absolute;
-  top: 0; left: 50%;
-  transform: translateX(-50%);
-  width: 120px;
-  height: 2px;
-  background: linear-gradient(to right, transparent, rgba(201,162,74,0.7), transparent);
-}
-
-.ceremony-badge {
-  font-family: var(--font-sans);
-  font-size: 0.72rem;
-  font-weight: 600;
+.info-card-title {
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 1.3rem;
+  font-weight: 700;
   letter-spacing: 3px;
   text-transform: uppercase;
-  color: var(--text-muted);
-  margin-bottom: 24px;
+  color: var(--text-cream);
+  margin-bottom: 6px;
 }
 
-.ceremony-time {
-  font-family: var(--font-script);
-  font-size: 4rem;
-  font-weight: 400;
-  color: var(--bg-main);
-  line-height: 1;
-  margin-bottom: 4px;
-  filter: drop-shadow(0 2px 6px rgba(81,20,25,0.2));
-}
-
-.ceremony-date-full {
-  font-family: var(--font-serif);
-  font-size: 1.15rem;
-  color: var(--text-muted);
+.info-card-kicker {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-style: italic;
+  color: var(--text-cream-dim);
   margin-bottom: 28px;
+}
+
+/* -- Family / parents grid -- */
+.parents-grid {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: start;
+  gap: 16px;
+  margin-bottom: 28px;
+  text-align: center;
+}
+
+.parents-divider {
+  width: 1px;
+  align-self: stretch;
+  background: rgba(236, 228, 216, 0.3);
+}
+
+.parents-tag {
+  display: inline-block;
+  font-family: var(--font-caps);
+  font-size: 0.68rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold-light);
+  margin-bottom: 8px;
+}
+
+.parents-names {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  font-family: var(--font-body);
+  font-size: 0.86rem;
+  color: var(--text-cream);
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.parents-address {
+  font-family: var(--font-body);
+  font-size: 0.76rem;
+  font-style: italic;
+  color: var(--text-cream-dim);
+}
+
+/* -- Couple names -- */
+.couple-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 20px 0;
+  margin-bottom: 26px;
+  border-top: 1px solid rgba(236, 228, 216, 0.18);
+  border-bottom: 1px solid rgba(236, 228, 216, 0.18);
+}
+
+.couple-block {
+  text-align: center;
+}
+
+.couple-name {
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: var(--text-cream);
+  margin-bottom: 4px;
+}
+
+.couple-role {
+  display: block;
+  font-family: var(--font-caps);
+  font-size: 0.62rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold-light);
+  opacity: 0.9;
+}
+
+.couple-amp {
+  font-family: var(--font-amp);
+  font-size: 1.6rem;
+  color: var(--gold-light);
+}
+
+/* -- Ceremony strip inside the wedding info card -- */
+.ceremony-strip-label {
+  font-family: var(--font-label);
+  font-size: 0.78rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-cream-dim);
+  margin-bottom: 6px;
+}
+
+.ceremony-strip-place {
+  font-family: var(--font-serif);
+  font-size: 1.45rem;
+  font-weight: 600;
+  color: var(--text-cream);
+  margin-bottom: 4px;
+}
+
+.ceremony-strip-sub {
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  font-style: italic;
+  color: var(--text-cream-faint);
+  margin-bottom: 18px;
+}
+
+.ceremony-date-block {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(236, 228, 216, 0.94);
+  color: var(--red);
+  border-radius: 10px;
+  padding: 8px 22px;
+  margin-bottom: 12px;
+}
+
+.ceremony-date-day {
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 2.4rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.ceremony-date-rest {
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 0.85rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  text-align: left;
+  line-height: 1.2;
+}
+
+.ceremony-strip-time {
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  color: var(--text-cream);
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.ceremony-lunar-date {
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  color: var(--text-cream-dim);
   font-style: italic;
   letter-spacing: 0.5px;
 }
 
-.ceremony-location {
-  font-family: var(--font-serif);
-  font-size: 1.8rem;
-  font-weight: 600;
-  color: var(--bg-main);
-  margin-bottom: 10px;
+/* ==========================================================================
+   6. TIMELINE & COUNTDOWN & CALENDAR (bên trong info-card)
+   ========================================================================== */
+
+.timeline-list {
+  position: relative;
+  max-width: 360px;
+  margin: 0 auto 28px;
+  padding-left: 20px;
+  text-align: left;
+  list-style: none;
 }
 
-.ceremony-address-detail {
-  font-size: 1rem;
-  color: var(--text-muted);
-  margin-bottom: 34px;
+.timeline-list::before {
+  content: '';
+  position: absolute;
+  left: 20px;
+  top: 6px;
+  bottom: 6px;
+  width: 1px;
+  background: rgba(236, 228, 216, 0.28);
 }
+
+.timeline-item {
+  position: relative;
+  padding-left: 24px;
+  margin-bottom: 18px;
+}
+
+.timeline-item:last-child {
+  margin-bottom: 0;
+}
+
+.timeline-dot {
+  position: absolute;
+  left: -6px;
+  top: 4px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--gold-light);
+  box-shadow: 0 0 0 3px rgba(201, 162, 74, 0.18);
+}
+
+.timeline-time {
+  font-family: var(--font-label);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--gold-light);
+  margin-bottom: 2px;
+  text-transform: uppercase;
+}
+
+.timeline-label {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--text-cream);
+  font-style: italic;
+}
+
+/* Realtime Countdown Timer */
+.countdown-wrap {
+  margin: 24px auto 20px;
+  text-align: center;
+}
+
+.countdown-title {
+  font-family: var(--font-label);
+  font-size: 0.85rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-cream-dim);
+  margin-bottom: 12px;
+}
+
+.countdown-grid {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.countdown-unit {
+  background: rgba(236, 228, 216, 0.12);
+  border: 1px solid rgba(236, 228, 216, 0.22);
+  border-radius: 8px;
+  padding: 8px 10px;
+  min-width: 56px;
+  backdrop-filter: blur(4px);
+}
+
+.countdown-val {
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 1.65rem;
+  font-weight: 700;
+  color: var(--text-cream);
+  line-height: 1;
+  display: block;
+}
+
+.countdown-lbl {
+  font-family: var(--font-label);
+  font-size: 0.65rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text-cream-dim);
+  margin-top: 4px;
+  display: block;
+}
+
+/* Embedded Calendar Card */
+.calendar-card {
+  margin: 24px auto;
+  width: 290px;
+  max-width: 100%;
+  background-color: #ece4d8;
+  color: #511419;
+  border-radius: 12px;
+  padding: 14px 16px 16px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.22);
+}
+
+.calendar-header {
+  text-align: center;
+  font-family: var(--font-script), 'The Nautigal', cursive;
+  font-size: 1.55rem;
+  color: #511419;
+  padding-bottom: 6px;
+  border-bottom: 1px solid rgba(81, 20, 25, 0.2);
+  margin-bottom: 6px;
+}
+
+.calendar-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  border-bottom: 2px solid #511419;
+  padding-bottom: 4px;
+  margin-bottom: 6px;
+}
+
+.calendar-weekday {
+  text-align: center;
+  font-size: 0.72rem;
+  font-weight: 600;
+  opacity: 0.7;
+  font-family: var(--font-label);
+}
+
+.calendar-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+}
+
+.calendar-cell {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-family: 'Times New Roman', Times, serif;
+  position: relative;
+}
+
+.calendar-cell.highlight {
+  color: #fff;
+  font-weight: bold;
+}
+
+.calendar-heart-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  fill: #511419;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.25));
+}
+
+.calendar-cell-num {
+  position: relative;
+  z-index: 1;
+}
+
+.map-frame {
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 24px;
+  border: 1px solid rgba(236, 228, 216, 0.25);
+  filter: saturate(0.9);
+}
+
+.map-frame iframe {
+  display: block;
+}
+
+/* ==========================================================================
+   7. ACTION BUTTONS (dùng trên info-card nền đỏ)
+   ========================================================================== */
 
 .ceremony-actions {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 16px;
+  gap: 14px;
 }
 
 .btn-action {
-  padding: 13px 30px;
+  padding: 12px 26px;
   border-radius: 50px;
-  font-family: var(--font-sans);
+  font-family: var(--font-label);
   font-weight: 600;
-  font-size: 0.82rem;
+  font-size: 0.85rem;
   letter-spacing: 1px;
   text-decoration: none;
   cursor: pointer;
@@ -830,161 +1168,135 @@ body::after {
 }
 
 .btn-primary {
-  background-color: var(--bg-main);
-  color: #fae9d8;
+  background-color: var(--text-cream);
+  color: var(--red);
   border: none;
-  box-shadow: 0 4px 16px rgba(81,20,25,0.4);
 }
 .btn-primary:hover {
-  background-color: var(--bg-accent);
-  transform: translateY(-3px);
-  box-shadow: 0 8px 24px rgba(81,20,25,0.5);
+  background-color: #fff;
+  transform: translateY(-2px);
 }
 
 .btn-outline {
   background-color: transparent;
-  color: var(--bg-main);
-  border: 1.5px solid rgba(81,20,25,0.5);
+  color: var(--text-cream);
+  border: 1.5px solid rgba(236, 228, 216, 0.5);
 }
 .btn-outline:hover {
-  background-color: rgba(81, 20, 25, 0.06);
-  border-color: var(--bg-main);
-  transform: translateY(-3px);
+  background-color: rgba(236, 228, 216, 0.1);
+  border-color: var(--text-cream);
+  transform: translateY(-2px);
 }
 
 /* ==========================================================================
-   7. TIMELINE SECTION
+   8. 3D COVERFLOW PHOTO GALLERY & LIGHTBOX
    ========================================================================== */
 
-.timeline-list {
+.gallery-section {
   position: relative;
-  max-width: 560px;
-  margin: 0 auto;
-  padding-left: 24px;
-}
-
-.timeline-list::before {
-  content: '';
-  position: absolute;
-  left: 24px;
-  top: 20px;
-  bottom: 20px;
-  width: 1px;
-  background: linear-gradient(to bottom, rgba(201,162,74,0.8), rgba(201,162,74,0.1));
-}
-
-.timeline-item {
-  position: relative;
-  padding-left: 48px;
-  margin-bottom: 36px;
-}
-
-.timeline-dot {
-  position: absolute;
-  left: -7px;
-  top: 5px;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--text-gold-light), var(--text-gold));
-  border: 2px solid var(--bg-dark);
-  box-shadow: 0 0 12px rgba(201,162,74,0.6), 0 0 0 3px rgba(201,162,74,0.12);
-}
-
-.timeline-time {
-  font-family: var(--font-sans);
-  font-size: 0.85rem;
-  font-weight: 700;
-  letter-spacing: 2px;
-  color: var(--text-gold);
-  margin-bottom: 3px;
-  text-transform: uppercase;
-}
-
-.timeline-label {
-  font-family: var(--font-serif);
-  font-size: 1.3rem;
-  color: var(--text-light);
-  font-style: italic;
-}
-
-/* ==========================================================================
-   8. PHOTO GALLERY & LIGHTBOX
-   ========================================================================== */
-
-.gallery-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-auto-rows: 220px;
-  gap: 12px;
-  /* The row-spanning items leave holes with the default sparse packing. */
-  grid-auto-flow: dense;
-}
-
-.gallery-grid .gallery-item:nth-child(3n+1) {
-  grid-row: span 2;
-}
-
-@media (max-width: 900px) {
-  .gallery-grid { grid-template-columns: repeat(3, 1fr); }
-}
-@media (max-width: 600px) {
-  .gallery-grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 180px; }
-  .gallery-grid .gallery-item:nth-child(3n+1) { grid-row: span 1; }
-}
-
-.gallery-item {
-  position: relative;
-  border-radius: 12px;
   overflow: hidden;
-  cursor: pointer;
-  border: 1px solid rgba(201, 162, 74, 0.15);
-  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
 }
 
-.gallery-img {
+.gallery-carousel-3d-wrap {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 10px 0 10px;
+}
+
+.gallery-3d-stage {
+  position: relative;
+  height: 380px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 1000px;
+  perspective-origin: center center;
+  touch-action: pan-y;
+  user-select: none;
+}
+
+@media (min-width: 600px) {
+  .gallery-3d-stage {
+    height: 480px;
+  }
+}
+
+.gallery-3d-slide {
+  position: absolute;
+  height: 90%;
+  aspect-ratio: 2 / 3;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 15px 35px rgba(81, 20, 25, 0.25), 0 5px 15px rgba(0,0,0,0.15);
+  cursor: pointer;
+  transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.6s ease, box-shadow 0.6s ease;
+  will-change: transform, opacity;
+  background-color: #222;
+}
+
+.gallery-3d-slide img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  display: block;
 }
 
-.gallery-item:hover .gallery-img {
-  transform: scale(1.1);
-}
-
-.gallery-overlay {
+.gallery-3d-nav-btn {
   position: absolute;
-  inset: 0;
-  background: linear-gradient(to top, rgba(31,5,8,0.7) 0%, rgba(0,0,0,0.2) 60%, transparent 100%);
-  opacity: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: opacity 0.35s ease;
-}
-
-.gallery-item:hover .gallery-overlay {
-  opacity: 1;
-}
-
-.gallery-icon {
-  width: 46px;
-  height: 46px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  background: rgba(201, 162, 74, 0.85);
-  color: var(--bg-dark);
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(81, 20, 25, 0.15);
+  color: var(--red);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 18px;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.4);
-  transform: scale(0.8);
-  transition: transform 0.3s ease;
+  cursor: pointer;
+  z-index: 120;
+  box-shadow: 0 4px 12px rgba(81, 20, 25, 0.15);
+  transition: all 0.25s ease;
 }
 
-.gallery-item:hover .gallery-icon {
-  transform: scale(1);
+.gallery-3d-nav-btn:hover {
+  background: var(--red);
+  color: #fff;
+  transform: translateY(-50%) scale(1.08);
+}
+
+.gallery-3d-prev { left: 8px; }
+.gallery-3d-next { right: 8px; }
+
+.gallery-dots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 14px;
+}
+
+.gallery-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--red);
+  opacity: 0.25;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0;
+}
+
+.gallery-dot.active {
+  width: 22px;
+  border-radius: 6px;
+  opacity: 0.85;
 }
 
 /* Lightbox Modal */
@@ -992,7 +1304,7 @@ body::after {
   position: fixed;
   inset: 0;
   z-index: 99999;
-  background: rgba(5, 0, 2, 0.95);
+  background: rgba(30, 5, 8, 0.94);
   display: none;
   align-items: center;
   justify-content: center;
@@ -1013,8 +1325,8 @@ body::after {
   max-width: 88vw;
   max-height: 85vh;
   object-fit: contain;
-  border-radius: 10px;
-  box-shadow: 0 20px 80px rgba(0,0,0,0.8);
+  border-radius: 6px;
+  box-shadow: 0 20px 80px rgba(0,0,0,0.6);
   animation: lb-imgshow 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
@@ -1027,8 +1339,8 @@ body::after {
   position: absolute;
   top: 20px;
   right: 24px;
-  color: rgba(255,255,255,0.7);
-  font-size: 32px;
+  color: rgba(255,255,255,0.8);
+  font-size: 30px;
   font-family: inherit;
   cursor: pointer;
   line-height: 1;
@@ -1039,13 +1351,13 @@ body::after {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.12);
   transition: background 0.2s, color 0.2s;
   z-index: 2;
 }
 
 .lightbox-close:hover {
-  background: rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.22);
   color: #fff;
 }
 
@@ -1053,11 +1365,11 @@ body::after {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: rgba(255,255,255,0.08);
-  border: 1px solid rgba(255,255,255,0.15);
-  color: rgba(255,255,255,0.8);
-  width: 50px;
-  height: 50px;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.18);
+  color: rgba(255,255,255,0.85);
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -1065,11 +1377,10 @@ body::after {
   cursor: pointer;
   font-size: 22px;
   transition: background 0.2s, color 0.2s;
-  backdrop-filter: blur(8px);
 }
 
 .lightbox-btn:hover {
-  background: rgba(255,255,255,0.18);
+  background: rgba(255,255,255,0.2);
   color: #fff;
 }
 
@@ -1081,9 +1392,9 @@ body::after {
   bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
-  color: rgba(255,255,255,0.5);
+  color: rgba(255,255,255,0.6);
   font-size: 0.85rem;
-  font-family: var(--font-sans);
+  font-family: var(--font-label);
   letter-spacing: 2px;
 }
 
@@ -1091,10 +1402,6 @@ body::after {
    9. MONEY BOX / VIETQR & BANKING
    ========================================================================== */
 
-/* ── PHONG BAO LÌ XÌ ───────────────────────────────────────────────────────
-   Hai phong bì vàng nghiêng chồng nhau, nhấn vào mở bảng chứa mã QR.
-   Vẽ hoàn toàn bằng CSS + 1 file SVG hoa văn tự sinh (images/lixi-ornament.svg)
-   ───────────────────────────────────────────────────────────────────────── */
 .sr-only {
   position: absolute;
   width: 1px; height: 1px;
@@ -1136,7 +1443,7 @@ body::after {
     linear-gradient(152deg, #e9d09a 0%, #dcbe83 30%, #c8a45f 66%, #b2884a 100%);
   background-size: 120px 120px, auto;
   box-shadow:
-    0 20px 44px rgba(0, 0, 0, 0.6),
+    0 16px 36px rgba(81, 20, 25, 0.28),
     0 0 0 1px rgba(255, 246, 224, 0.35),
     0 2px 0 rgba(255, 248, 228, 0.5) inset,
     0 -3px 8px rgba(120, 84, 30, 0.4) inset;
@@ -1205,10 +1512,9 @@ body::after {
   position: absolute;
   top: 6px;
   right: 52px;
-  color: var(--text-gold-light);
+  color: var(--gold);
   font-size: 13px;
   line-height: 1;
-  text-shadow: 0 0 10px rgba(240, 223, 160, 0.9);
   animation: sparkle-twinkle 2.6s ease-in-out infinite;
   z-index: 3;
   pointer-events: none;
@@ -1221,11 +1527,11 @@ body::after {
 
 .lixi-hint {
   margin-top: 6px;
-  font-family: var(--font-sans);
-  font-size: 0.75rem;
-  letter-spacing: 3px;
+  font-family: var(--font-label);
+  font-size: 0.85rem;
+  letter-spacing: 2px;
   text-transform: uppercase;
-  color: var(--text-gold-dim);
+  color: var(--text-muted);
 }
 
 /* Bảng chứa mã QR */
@@ -1233,7 +1539,7 @@ body::after {
   position: fixed;
   inset: 0;
   z-index: 99998;
-  background: rgba(8, 0, 2, 0.82);
+  background: rgba(30, 5, 8, 0.7);
   backdrop-filter: blur(4px);
   display: none;
   align-items: flex-end;
@@ -1246,14 +1552,14 @@ body::after {
 
 .lixi-panel {
   width: 100%;
-  max-width: 520px;
+  max-width: 480px;
   max-height: 90vh;
   display: flex;
   flex-direction: column;
-  border-radius: 22px 22px 0 0;
+  border-radius: 16px 16px 0 0;
   overflow: hidden;
-  background: linear-gradient(170deg, #4a0b10 0%, #340609 100%);
-  box-shadow: 0 -20px 60px rgba(0, 0, 0, 0.7);
+  background: var(--bg-cream);
+  box-shadow: 0 -20px 60px rgba(0, 0, 0, 0.4);
   animation: lixi-rise 0.45s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -1267,16 +1573,16 @@ body::after {
   flex-shrink: 0;
   padding: 20px 56px;
   text-align: center;
-  background: linear-gradient(150deg, #f0dca8, #d9b877 55%, #c49c55);
+  background: linear-gradient(170deg, var(--red-accent), var(--red));
 }
 
 .lixi-panel-title {
-  font-family: var(--font-serif);
-  font-size: 1.15rem;
+  font-family: var(--font-label);
+  font-size: 1.05rem;
   font-weight: 700;
-  letter-spacing: 4px;
+  letter-spacing: 3px;
   text-transform: uppercase;
-  color: #4a0b10;
+  color: var(--text-cream);
 }
 
 .lixi-close {
@@ -1288,8 +1594,8 @@ body::after {
   height: 34px;
   border: none;
   border-radius: 50%;
-  background: rgba(74, 11, 16, 0.15);
-  color: #4a0b10;
+  background: rgba(236, 228, 216, 0.15);
+  color: var(--text-cream);
   font-size: 24px;
   line-height: 1;
   cursor: pointer;
@@ -1300,76 +1606,69 @@ body::after {
 }
 
 .lixi-close:hover {
-  background: rgba(74, 11, 16, 0.3);
+  background: rgba(236, 228, 216, 0.3);
 }
 
 .lixi-panel-body {
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  padding: 26px 20px 34px;
+  padding: 24px 20px 32px;
   display: grid;
-  gap: 20px;
+  gap: 18px;
 }
 
 .bank-owner {
-  font-size: 0.85rem;
-  color: rgba(245, 239, 230, 0.6);
+  font-size: 0.82rem;
+  color: var(--text-faint);
 }
 
 .bank-card {
-  background: rgba(12, 3, 5, 0.62);
-  border: 1px solid rgba(201,162,74,0.25);
-  border-radius: 22px;
-  padding: 32px 28px;
+  background: #fff;
+  border: 1px solid var(--red-border);
+  border-radius: 16px;
+  padding: 28px 24px;
   text-align: center;
-  backdrop-filter: blur(14px);
-  box-shadow: 0 16px 40px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.04);
-  transition: border-color 0.3s, box-shadow 0.3s;
-}
-
-.bank-card:hover {
-  border-color: rgba(201,162,74,0.45);
-  box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 25px rgba(201,162,74,0.07);
+  box-shadow: var(--shadow-soft);
 }
 
 .bank-qr-img {
   /* VietQR trả ảnh 540x640 — ép về hình vuông sẽ bóp méo mã và app ngân hàng
      có thể quét không ra, nên giữ đúng tỉ lệ gốc. */
   display: block;
-  width: 190px;
+  width: 180px;
   height: auto;
   aspect-ratio: 540 / 640;
   object-fit: contain;
-  margin: 0 auto 22px;
-  border-radius: 14px;
+  margin: 0 auto 18px;
+  border-radius: 10px;
   background: #fff;
-  padding: 10px;
-  box-shadow: 0 10px 28px rgba(0,0,0,0.4);
+  padding: 8px;
+  border: 1px solid var(--red-border);
 }
 
 .bank-title {
   font-family: var(--font-script);
-  font-size: 1.8rem;
+  font-size: 1.5rem;
   font-weight: 400;
-  color: var(--text-gold);
+  color: var(--red);
   margin-bottom: 6px;
 }
 
 .bank-name {
-  font-family: var(--font-sans);
-  font-size: 0.82rem;
+  font-family: var(--font-label);
+  font-size: 0.8rem;
   letter-spacing: 1px;
   text-transform: uppercase;
-  color: rgba(245, 239, 230, 0.6);
+  color: var(--text-muted);
   margin-bottom: 6px;
 }
 
 .account-number-box {
-  background: rgba(0, 0, 0, 0.35);
-  border: 1px dashed rgba(201,162,74,0.28);
-  border-radius: 12px;
-  padding: 12px 16px;
-  margin: 16px 0;
+  background: var(--red-soft);
+  border: 1px dashed var(--red-border-strong);
+  border-radius: 10px;
+  padding: 11px 14px;
+  margin: 14px 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1377,22 +1676,22 @@ body::after {
 }
 
 .acc-num {
-  font-family: var(--font-sans);
+  font-family: var(--font-label);
   font-weight: 700;
   font-size: 1rem;
-  letter-spacing: 2px;
-  color: var(--text-gold-light);
+  letter-spacing: 1.5px;
+  color: var(--red);
   min-width: 0;
   white-space: nowrap;
 }
 
 .btn-copy {
-  background: linear-gradient(135deg, var(--text-gold), #a8862e);
-  color: var(--bg-dark);
+  background: var(--red);
+  color: #f3e8de;
   border: none;
-  padding: 7px 16px;
+  padding: 7px 15px;
   border-radius: 8px;
-  font-family: var(--font-sans);
+  font-family: var(--font-label);
   font-size: 0.78rem;
   font-weight: 700;
   letter-spacing: 0.5px;
@@ -1403,7 +1702,7 @@ body::after {
 }
 
 .btn-copy:hover {
-  background: linear-gradient(135deg, var(--text-gold-light), var(--text-gold));
+  background: var(--red-accent);
   transform: scale(1.03);
 }
 
@@ -1412,14 +1711,13 @@ body::after {
    ========================================================================== */
 
 .rsvp-card {
-  background: rgba(12, 3, 5, 0.65);
-  border: 1px solid rgba(201,162,74,0.22);
-  border-radius: 24px;
-  padding: 42px 36px;
-  max-width: 660px;
-  margin: 0 auto 50px;
-  backdrop-filter: blur(14px);
-  box-shadow: 0 20px 50px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.04);
+  background: #fff;
+  border: 1px solid var(--red-border);
+  border-radius: 16px;
+  padding: 36px 30px;
+  max-width: 560px;
+  margin: 0 auto 40px;
+  box-shadow: var(--shadow-soft);
 }
 
 .form-group {
@@ -1428,23 +1726,21 @@ body::after {
 
 .form-label {
   display: block;
-  font-family: var(--font-sans);
-  font-size: 0.8rem;
+  font-family: var(--font-label);
+  font-size: 0.9rem;
   font-weight: 600;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  color: var(--text-gold);
-  margin-bottom: 10px;
-  opacity: 0.9;
+  letter-spacing: 0.5px;
+  color: var(--red);
+  margin-bottom: 9px;
 }
 
 .form-control {
   width: 100%;
-  padding: 13px 16px;
-  background: rgba(0, 0, 0, 0.28);
-  border: 1px solid rgba(201, 162, 74, 0.2);
-  border-radius: 12px;
-  color: var(--text-light);
+  padding: 12px 15px;
+  background: var(--bg-cream-soft);
+  border: 1px solid var(--red-border);
+  border-radius: 10px;
+  color: var(--text-dark);
   font-family: var(--font-body);
   font-size: 0.95rem;
   outline: none;
@@ -1452,13 +1748,13 @@ body::after {
 }
 
 .form-control:focus {
-  border-color: rgba(201,162,74,0.6);
-  box-shadow: 0 0 0 3px rgba(201,162,74,0.08);
+  border-color: var(--red-border-strong);
+  box-shadow: 0 0 0 3px var(--red-soft);
 }
 
 .form-control option {
-  background: #2d0810;
-  color: var(--text-light);
+  background: #fff;
+  color: var(--text-dark);
 }
 
 textarea.form-control {
@@ -1466,12 +1762,12 @@ textarea.form-control {
   min-height: 84px;
 }
 
-/* The native select arrow is nearly invisible on this dark fill, so draw one. */
+/* The native select arrow is drawn to match the theme. */
 select.form-control {
   -webkit-appearance: none;
   appearance: none;
   padding-right: 42px;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23c9a24a' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23511419' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 14px center;
   background-size: 18px 18px;
@@ -1479,7 +1775,7 @@ select.form-control {
 }
 
 .form-control::placeholder {
-  color: rgba(245, 239, 230, 0.38);
+  color: var(--text-faint);
 }
 
 .radio-group {
@@ -1493,12 +1789,12 @@ select.form-control {
   align-items: center;
   gap: 8px;
   cursor: pointer;
-  font-size: 0.95rem;
-  color: var(--text-light);
+  font-size: 0.92rem;
+  color: var(--text-dark);
 }
 
 .radio-label input[type="radio"] {
-  accent-color: var(--text-gold);
+  accent-color: var(--red);
   width: 17px;
   height: 17px;
   flex-shrink: 0;
@@ -1508,26 +1804,24 @@ select.form-control {
 .btn-submit-rsvp {
   width: 100%;
   padding: 15px;
-  background: linear-gradient(135deg, var(--text-gold), #a8862e 50%, var(--text-gold));
-  background-size: 200% 100%;
-  background-position: 0 0;
-  color: var(--bg-dark);
+  background: var(--red);
+  color: #f3e8de;
   border: none;
   border-radius: 50px;
-  font-family: var(--font-sans);
-  font-size: 0.88rem;
+  font-family: var(--font-label);
+  font-size: 0.95rem;
   font-weight: 700;
-  letter-spacing: 2px;
+  letter-spacing: 1.5px;
   text-transform: uppercase;
   cursor: pointer;
-  transition: all 0.4s ease;
-  box-shadow: 0 6px 24px rgba(201, 162, 74, 0.35);
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 20px rgba(81, 20, 25, 0.3);
 }
 
 .btn-submit-rsvp:hover:not(:disabled) {
-  background-position: 100% 0;
+  background: var(--red-accent);
   transform: translateY(-2px);
-  box-shadow: 0 10px 32px rgba(201, 162, 74, 0.45);
+  box-shadow: 0 10px 26px rgba(81, 20, 25, 0.4);
 }
 
 .btn-submit-rsvp:disabled {
@@ -1537,20 +1831,20 @@ select.form-control {
   box-shadow: none;
 }
 
-/* Guestbook Timeline */
+/* Guestbook — style "giấy note" nhẹ nhàng */
 .guestbook-list {
   display: flex;
   flex-direction: column;
-  gap: 14px;
-  max-width: 660px;
+  gap: 12px;
+  max-width: 560px;
   margin: 0 auto;
 }
 
 .wish-card {
-  background: rgba(10, 2, 4, 0.5);
-  border: 1px solid rgba(201, 162, 74, 0.15);
-  border-radius: 16px;
-  padding: 22px 24px;
+  background: var(--bg-cream-soft);
+  border: 1px solid var(--red-border);
+  border-radius: 12px;
+  padding: 20px 22px;
   transition: border-color 0.3s;
   animation: wish-appear 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
@@ -1561,18 +1855,18 @@ select.form-control {
 }
 
 .wish-card:hover {
-  border-color: rgba(201,162,74,0.3);
+  border-color: var(--red-border-strong);
 }
 
 .guestbook-status {
   text-align: center;
-  padding: 26px 20px;
-  color: rgba(245, 239, 230, 0.55);
+  padding: 24px 20px;
+  color: var(--text-muted);
   font-family: var(--font-body);
   font-style: italic;
   font-size: 0.95rem;
-  border: 1px dashed rgba(201, 162, 74, 0.18);
-  border-radius: 16px;
+  border: 1px dashed var(--red-border);
+  border-radius: 12px;
 }
 
 .guestbook-status[hidden] { display: none; }
@@ -1581,7 +1875,7 @@ select.form-control {
   display: flex;
   align-items: center;
   gap: 14px;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 
 .wish-who {
@@ -1594,39 +1888,39 @@ select.form-control {
 .wish-date {
   margin-top: 10px;
   text-align: right;
-  font-family: var(--font-sans);
-  font-size: 0.68rem;
+  font-family: var(--font-label);
+  font-size: 0.72rem;
   letter-spacing: 0.5px;
-  color: rgba(245, 239, 230, 0.3);
+  color: var(--text-faint);
 }
 
 .wish-avatar {
-  width: 42px;
-  height: 42px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--text-gold), #7a5a1a);
-  color: var(--bg-dark);
+  background: var(--red);
+  color: #f3e8de;
   font-weight: 700;
-  font-family: var(--font-sans);
+  font-family: var(--font-label);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 1rem;
   flex-shrink: 0;
-  box-shadow: 0 4px 12px rgba(201,162,74,0.25);
 }
 
 .wish-author {
   font-weight: 600;
-  color: var(--text-gold-light);
+  color: var(--red);
   font-size: 1rem;
+  font-family: var(--font-body);
 }
 
 .wish-side {
-  font-family: var(--font-sans);
-  font-size: 0.75rem;
+  font-family: var(--font-label);
+  font-size: 0.78rem;
   letter-spacing: 0.5px;
-  color: rgba(245, 239, 230, 0.5);
+  color: var(--text-faint);
   margin-top: 2px;
 }
 
@@ -1634,16 +1928,16 @@ select.form-control {
   font-family: var(--font-body);
   font-size: 0.95rem;
   line-height: 1.65;
-  color: rgba(245, 239, 230, 0.85);
+  color: var(--text-muted);
   font-style: italic;
   padding-left: 4px;
-  border-left: 2px solid rgba(201,162,74,0.2);
+  border-left: 2px solid var(--red-border);
 }
 
 /* Footer / Thank you */
 .footer-thankyou {
   text-align: center;
-  padding: 70px 20px 110px;
+  padding: 60px 20px 90px;
   position: relative;
   z-index: 1;
 }
@@ -1651,29 +1945,34 @@ select.form-control {
 .footer-thankyou::before {
   content: '';
   display: block;
-  width: 200px;
+  width: 160px;
   height: 1px;
-  background: linear-gradient(to right, transparent, rgba(201,162,74,0.5), transparent);
-  margin: 0 auto 60px;
+  background: linear-gradient(to right, transparent, var(--gold), transparent);
+  margin: 0 auto 46px;
 }
 
 .thankyou-title {
   font-family: var(--font-script);
-  font-size: 4.5rem;
-  color: var(--text-gold);
-  margin-bottom: 20px;
-  filter: drop-shadow(0 4px 14px rgba(201,162,74,0.3));
+  font-size: 3.2rem;
+  color: var(--red);
+  margin-bottom: 18px;
   line-height: 1.1;
 }
 
 .thankyou-text {
-  font-size: 1.05rem;
-  max-width: 560px;
-  margin: 0 auto 32px;
+  font-size: 1rem;
+  max-width: 480px;
+  margin: 0 auto 26px;
   line-height: 1.8;
-  color: rgba(245, 239, 230, 0.82);
+  color: var(--text-muted);
   font-family: var(--font-body);
   font-style: italic;
+}
+
+.thankyou-signature {
+  font-family: var(--font-amp);
+  font-size: 1.8rem;
+  color: var(--gold);
 }
 
 /* Toast */
@@ -1682,15 +1981,15 @@ select.form-control {
   top: 24px;
   left: 50%;
   transform: translateX(-50%) translateY(-100px);
-  background: linear-gradient(135deg, var(--text-gold), #a8862e);
-  color: var(--bg-dark);
+  background: var(--red);
+  color: #f3e8de;
   padding: 12px 30px;
   border-radius: 50px;
-  font-family: var(--font-sans);
-  font-size: 0.88rem;
+  font-family: var(--font-label);
+  font-size: 0.9rem;
   font-weight: 700;
   letter-spacing: 0.5px;
-  box-shadow: 0 10px 36px rgba(0,0,0,0.5), 0 0 20px rgba(201,162,74,0.3);
+  box-shadow: 0 10px 30px rgba(81, 20, 25, 0.35);
   z-index: 999999;
   /* Long messages must wrap instead of running off a narrow screen. */
   max-width: calc(100vw - 32px);
@@ -1705,31 +2004,25 @@ select.form-control {
 
 /* Responsive adjustments */
 @media (max-width: 640px) {
-  .hero-names { font-size: 2.8rem; }
-  .hero-names span { font-size: 1.5rem; margin: 0 8px; }
-  .envelope-title { font-size: 2.4rem; }
-  .envelope-card { padding: 76px 20px 36px; }
-  .btn-open-invite { padding: 14px 32px; font-size: 0.9rem; }
-  .section { padding: 60px 0; }
-  .section-subtitle { font-size: 2.1rem; }
-  .section-main-title { font-size: 1.15rem; letter-spacing: 3px; }
-  .ceremony-time { font-size: 3rem; }
-  .ceremony-card { padding: 40px 20px; }
-  .ceremony-card::before { top: 8px; left: 8px; right: 8px; bottom: 8px; }
-  /* 4 x 70px + 3 x 14px gap + 40px container padding overflowed a 360px screen. */
-  .countdown-container { gap: 8px; }
-  .countdown-box { min-width: 0; flex: 1 1 0; padding: 14px 6px; }
-  .countdown-value { font-size: 1.6rem; }
-  .countdown-label { font-size: 0.6rem; letter-spacing: 1px; }
-  .bank-cards-grid { grid-template-columns: 1fr; }
-  .bank-card { padding: 30px 18px; }
-  .bank-qr-img { width: 100%; max-width: 200px; }
-  /* Keep the 13-digit account number on one line next to the copy button. */
-  .account-number-box { padding: 12px; gap: 8px; }
-  .acc-num { font-size: 0.88rem; letter-spacing: 0.5px; }
+  .hero-names { font-size: 2.3rem; }
+  .hero-amp { font-size: 1.4rem; margin: 0 6px; }
+  .envelope-title { font-size: 2.1rem; }
+  .envelope-card { padding: 66px 20px 34px; }
+  .btn-open-invite { padding: 13px 32px; font-size: 0.85rem; }
+  .section { padding: 46px 0; }
+  .section-subtitle { font-size: 1.7rem; }
+  .section-main-title { font-size: 0.95rem; letter-spacing: 2.5px; }
+  .info-card { padding: 34px 18px 30px; }
+  .parents-grid { gap: 10px; }
+  .couple-name { font-size: 1.25rem; }
+  .ceremony-date-day { font-size: 2rem; }
+  .bank-card { padding: 26px 16px; }
+  .bank-qr-img { width: 100%; max-width: 180px; }
+  .account-number-box { padding: 10px; gap: 8px; }
+  .acc-num { font-size: 0.85rem; letter-spacing: 0.5px; }
   .btn-copy { padding: 7px 12px; font-size: 0.72rem; }
-  .thankyou-title { font-size: 3.5rem; }
-  .rsvp-card { padding: 28px 20px; }
+  .thankyou-title { font-size: 2.6rem; }
+  .rsvp-card { padding: 26px 18px; }
   .lightbox-btn { display: none; }
   .lightbox-img { max-width: 94vw; }
 }

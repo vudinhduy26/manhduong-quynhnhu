@@ -648,7 +648,7 @@ html.no-scroll body {
   letter-spacing: 5px;
   text-transform: uppercase;
   color: #590310;
-  margin-bottom: 24px;
+  margin-bottom: 34px;
 }
 
 /* -- Phong bì mở + hoa + ảnh cưới lồng bên trong -- */
@@ -683,15 +683,15 @@ html.no-scroll body {
 
 .hero-envelope-photo-card {
   position: absolute;
-  left: 33%;
-  top: -2%;
-  width: 64%;
+  left: 32%;
+  top: 7%;
+  width: 62%;
   z-index: 20;
 }
 
 .hero-envelope-photo-frame {
-  aspect-ratio: 190 / 323;
-  transform: rotate(12deg);
+  aspect-ratio: 210 / 295;
+  transform: rotate(11deg);
   border: 6px solid #ffffff;
   background-color: #ffffff;
   box-shadow: 2px 4px 16px rgba(0, 0, 0, 0.28);

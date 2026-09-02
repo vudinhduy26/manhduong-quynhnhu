@@ -550,8 +550,8 @@ document.addEventListener('DOMContentLoaded', () => {
   if (btnAddCalendar) {
     btnAddCalendar.addEventListener('click', () => {
       const title = encodeURIComponent('Lễ Cưới Mạnh Dưỡng & Quỳnh Như');
-      const details = encodeURIComponent('Trân trọng kính mời quý khách đến dự lễ cưới của Mạnh Dưỡng & Quỳnh Như tại Nhà thờ Trung Lao, Nam Định.');
-      const location = encodeURIComponent('Nhà thờ Trung Lao, Nam Định');
+      const details = encodeURIComponent('Trân trọng kính mời quý khách đến dự tiệc cưới của Mạnh Dưỡng & Quỳnh Như tại 129 đường Hữu Nghị, Xã Cổ Lễ, Tỉnh Ninh Bình.');
+      const location = encodeURIComponent('129 đường Hữu Nghị, Xã Cổ Lễ, Tỉnh Ninh Bình');
       const dates = '20261018T040000Z/20261018T060000Z'; // UTC 11:00 AM VN time
 
       const googleCalUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&details=${details}&location=${location}&dates=${dates}`;

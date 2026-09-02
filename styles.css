@@ -85,7 +85,7 @@ html.no-scroll body {
   position: relative;
   background-color: var(--bg-cream);
   background-image:
-    radial-gradient(ellipse 55% 38% at 12% 8%,  rgba(178, 138, 78, 0.10), transparent 60%),
+    radial-gradient(ellipse 55% 38% at 12% 8%, rgba(178, 138, 78, 0.10), transparent 60%),
     radial-gradient(ellipse 48% 34% at 88% 20%, rgba(150, 112, 60, 0.09), transparent 58%),
     radial-gradient(ellipse 52% 38% at 18% 62%, rgba(160, 120, 68, 0.09), transparent 58%),
     radial-gradient(ellipse 58% 42% at 92% 82%, rgba(140, 100, 54, 0.08), transparent 60%),
@@ -122,13 +122,16 @@ html.no-scroll body {
 ::-webkit-scrollbar {
   width: 8px;
 }
+
 ::-webkit-scrollbar-track {
   background: var(--bg-cream);
 }
+
 ::-webkit-scrollbar-thumb {
   background: var(--red-border-strong);
   border-radius: 4px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
   background: var(--red);
 }
@@ -191,12 +194,15 @@ html.no-scroll body {
     transform: translateY(0) rotate(0deg) translateX(0);
     opacity: 0;
   }
+
   10% {
     opacity: 0.8;
   }
+
   90% {
     opacity: 0.8;
   }
+
   100% {
     transform: translateY(105vh) rotate(360deg) translateX(var(--sway, 20px));
     opacity: 0;
@@ -214,8 +220,15 @@ html.no-scroll body {
 }
 
 @keyframes envelope-entrance {
-  from { opacity: 0; transform: translateY(40px) scale(0.95); }
-  to   { opacity: 1; transform: translateY(0) scale(1); }
+  from {
+    opacity: 0;
+    transform: translateY(40px) scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 .wax-seal {
@@ -239,12 +252,19 @@ html.no-scroll body {
   width: 28px;
   height: 28px;
   fill: #f3e8de;
-  filter: drop-shadow(0 2px 3px rgba(0,0,0,0.35));
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.35));
 }
 
 @keyframes seal-pulse {
-  0%, 100% { transform: translateX(-50%) scale(1); }
-  50% { transform: translateX(-50%) scale(1.06); }
+
+  0%,
+  100% {
+    transform: translateX(-50%) scale(1);
+  }
+
+  50% {
+    transform: translateX(-50%) scale(1.06);
+  }
 }
 
 .envelope-card {
@@ -252,27 +272,45 @@ html.no-scroll body {
   border: 1px solid var(--red-border);
   border-radius: 8px;
   box-shadow: 0 25px 60px -12px rgba(0, 0, 0, 0.45), 0 8px 24px rgba(0, 0, 0, 0.2), 0 0 40px rgba(81, 20, 25, 0.15);
-  padding: 76px 32px 40px;
+  padding: 64px 28px 36px;
   text-align: center;
   position: relative;
   overflow: hidden;
   color: var(--text-dark);
 }
 
+.envelope-flower-decor {
+  position: absolute;
+  top: -24px;
+  left: -12px;
+  width: 120px;
+  max-width: 135px;
+  pointer-events: none;
+  z-index: 25;
+}
+
+.envelope-flower-decor img {
+  width: 100%;
+  height: auto;
+  transform: rotate(45deg);
+  transform-origin: center center;
+  filter: drop-shadow(3px 4px 10px rgba(81, 20, 25, 0.25));
+}
+
 .envelope-flourish {
   display: block;
   font-size: 1.2rem;
   color: var(--gold);
-  margin-bottom: 10px;
+  margin-bottom: 8px;
   opacity: 0.85;
 }
 
 .envelope-title {
   font-family: var(--font-script);
-  font-size: 2.6rem;
+  font-size: clamp(34px, 8.5vw, 48px);
   color: var(--text-dark);
   font-weight: 400;
-  line-height: 1.2;
+  line-height: 1.15;
   margin-bottom: 2px;
   letter-spacing: 0.5px;
 }
@@ -299,6 +337,7 @@ html.no-scroll body {
   height: 1px;
   background: linear-gradient(to right, transparent, var(--red-border-strong));
 }
+
 .envelope-divider .line.right {
   background: linear-gradient(to left, transparent, var(--red-border-strong));
 }
@@ -361,14 +400,22 @@ html.no-scroll body {
   left: -100%;
   width: 60%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
   animation: shine 3s ease-in-out infinite;
 }
 
 @keyframes shine {
-  0% { left: -100%; }
-  20% { left: 200%; }
-  100% { left: 200%; }
+  0% {
+    left: -100%;
+  }
+
+  20% {
+    left: 200%;
+  }
+
+  100% {
+    left: 200%;
+  }
 }
 
 /* ==========================================================================
@@ -411,8 +458,13 @@ html.no-scroll body {
 }
 
 @keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* ==========================================================================
@@ -444,9 +496,17 @@ html.no-scroll body {
   transform: translateY(0);
 }
 
-.reveal-delay-1 { transition-delay: 0.1s; }
-.reveal-delay-2 { transition-delay: 0.2s; }
-.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-1 {
+  transition-delay: 0.1s;
+}
+
+.reveal-delay-2 {
+  transition-delay: 0.2s;
+}
+
+.reveal-delay-3 {
+  transition-delay: 0.3s;
+}
 
 .section-title {
   text-align: center;
@@ -478,7 +538,8 @@ html.no-scroll body {
   margin: 16px auto 0;
 }
 
-.title-line::before, .title-line::after {
+.title-line::before,
+.title-line::after {
   content: '';
   display: block;
   width: 50px;
@@ -501,9 +562,12 @@ html.no-scroll body {
    ========================================================================== */
 
 @keyframes drFloat {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0);
   }
+
   50% {
     transform: translateY(-8px);
   }
@@ -532,16 +596,19 @@ html.no-scroll body {
   will-change: transform;
 }
 
-/* Watermark Background (Nền ẩn hoàng cung) */
+/* Watermark Background (Nền kiến trúc Nhà Thờ cổ kính) */
 .hero-palace-watermark {
   position: absolute;
   pointer-events: none;
   left: 50%;
-  top: 10%;
+  top: 6%;
   width: 140%;
   max-width: 800px;
   transform: translateX(-50%);
-  opacity: 0.08;
+  opacity: 0.18;
+  mix-blend-mode: multiply;
+  mask-image: radial-gradient(ellipse 65% 55% at 50% 50%, rgba(0, 0, 0, 1) 40%, rgba(0, 0, 0, 0) 100%);
+  -webkit-mask-image: radial-gradient(ellipse 65% 55% at 50% 50%, rgba(0, 0, 0, 1) 40%, rgba(0, 0, 0, 0) 100%);
   z-index: 0;
   user-select: none;
 }
@@ -550,11 +617,14 @@ html.no-scroll body {
   position: absolute;
   pointer-events: none;
   left: 50%;
-  top: -8%;
+  top: -4%;
   width: 130%;
   max-width: 750px;
   transform: translateX(-50%);
-  opacity: 0.07;
+  opacity: 0.16;
+  mix-blend-mode: multiply;
+  mask-image: radial-gradient(ellipse 65% 55% at 50% 50%, rgba(0, 0, 0, 1) 40%, rgba(0, 0, 0, 0) 100%);
+  -webkit-mask-image: radial-gradient(ellipse 65% 55% at 50% 50%, rgba(0, 0, 0, 1) 40%, rgba(0, 0, 0, 0) 100%);
   z-index: 0;
   user-select: none;
 }
@@ -620,7 +690,7 @@ html.no-scroll body {
 }
 
 .hero-envelope-photo-frame {
-  aspect-ratio: 221 / 309;
+  aspect-ratio: 190 / 323;
   transform: rotate(12deg);
   border: 6px solid #ffffff;
   background-color: #ffffff;
@@ -729,29 +799,34 @@ html.no-scroll body {
 
 .card-flower-decor-left {
   position: absolute;
-  left: -6%;
-  top: -12px;
-  width: 30%;
-  max-width: 120px;
+  left: -28px;
+  top: -45px;
+  width: 125px;
+  max-width: 145px;
   pointer-events: none;
-  z-index: 20;
+  z-index: 10;
 }
 
 .card-flower-decor-right {
   position: absolute;
-  right: -6%;
-  bottom: 22%;
-  width: 32%;
-  max-width: 130px;
+  right: -18px;
+  bottom: 3%;
+  width: 130px;
+  max-width: 155px;
   pointer-events: none;
-  z-index: 20;
+  z-index: 10;
+}
+
+.card-flower-decor-right.card-flower-reception {
+  top: 130px;
+  bottom: auto;
 }
 
 .card-flower-decor-left img,
 .card-flower-decor-right img {
   width: 100%;
   height: auto;
-  filter: drop-shadow(3px 4px 8px rgba(0, 0, 0, 0.3));
+  filter: drop-shadow(4px 6px 12px rgba(0, 0, 0, 0.4));
 }
 
 .info-card {
@@ -770,6 +845,31 @@ html.no-scroll body {
   color: var(--gold);
   font-size: 1.1rem;
   margin-bottom: 10px;
+}
+
+.info-card-header-decor {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 12px;
+  width: 100%;
+}
+
+.header-flower-left,
+.header-flower-right {
+  height: 68px;
+  width: auto;
+  max-width: 210px;
+  object-fit: contain;
+  pointer-events: none;
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.45));
+}
+
+.info-card-header-decor .info-card-flourish {
+  margin-bottom: 0;
+  flex-shrink: 0;
+  font-size: 1.2rem;
 }
 
 .info-card-title {
@@ -1172,6 +1272,7 @@ html.no-scroll body {
   color: var(--red);
   border: none;
 }
+
 .btn-primary:hover {
   background-color: #fff;
   transform: translateY(-2px);
@@ -1182,6 +1283,7 @@ html.no-scroll body {
   color: var(--text-cream);
   border: 1.5px solid rgba(236, 228, 216, 0.5);
 }
+
 .btn-outline:hover {
   background-color: rgba(236, 228, 216, 0.1);
   border-color: var(--text-cream);
@@ -1230,7 +1332,7 @@ html.no-scroll body {
   aspect-ratio: 2 / 3;
   border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 15px 35px rgba(81, 20, 25, 0.25), 0 5px 15px rgba(0,0,0,0.15);
+  box-shadow: 0 15px 35px rgba(81, 20, 25, 0.25), 0 5px 15px rgba(0, 0, 0, 0.15);
   cursor: pointer;
   transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.6s ease, box-shadow 0.6s ease;
   will-change: transform, opacity;
@@ -1270,8 +1372,13 @@ html.no-scroll body {
   transform: translateY(-50%) scale(1.08);
 }
 
-.gallery-3d-prev { left: 8px; }
-.gallery-3d-next { right: 8px; }
+.gallery-3d-prev {
+  left: 8px;
+}
+
+.gallery-3d-next {
+  right: 8px;
+}
 
 .gallery-dots {
   display: flex;
@@ -1313,8 +1420,13 @@ html.no-scroll body {
 }
 
 @keyframes lb-fadein {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 .lightbox-modal.active {
@@ -1326,20 +1438,27 @@ html.no-scroll body {
   max-height: 85vh;
   object-fit: contain;
   border-radius: 6px;
-  box-shadow: 0 20px 80px rgba(0,0,0,0.6);
+  box-shadow: 0 20px 80px rgba(0, 0, 0, 0.6);
   animation: lb-imgshow 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 @keyframes lb-imgshow {
-  from { transform: scale(0.9); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 .lightbox-close {
   position: absolute;
   top: 20px;
   right: 24px;
-  color: rgba(255,255,255,0.8);
+  color: rgba(255, 255, 255, 0.8);
   font-size: 30px;
   font-family: inherit;
   cursor: pointer;
@@ -1351,13 +1470,13 @@ html.no-scroll body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255,255,255,0.12);
+  background: rgba(255, 255, 255, 0.12);
   transition: background 0.2s, color 0.2s;
   z-index: 2;
 }
 
 .lightbox-close:hover {
-  background: rgba(255,255,255,0.22);
+  background: rgba(255, 255, 255, 0.22);
   color: #fff;
 }
 
@@ -1365,9 +1484,9 @@ html.no-scroll body {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: rgba(255,255,255,0.1);
-  border: 1px solid rgba(255,255,255,0.18);
-  color: rgba(255,255,255,0.85);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: rgba(255, 255, 255, 0.85);
   width: 48px;
   height: 48px;
   border-radius: 50%;
@@ -1380,19 +1499,24 @@ html.no-scroll body {
 }
 
 .lightbox-btn:hover {
-  background: rgba(255,255,255,0.2);
+  background: rgba(255, 255, 255, 0.2);
   color: #fff;
 }
 
-.lightbox-prev { left: 20px; }
-.lightbox-next { right: 20px; }
+.lightbox-prev {
+  left: 20px;
+}
+
+.lightbox-next {
+  right: 20px;
+}
 
 .lightbox-counter {
   position: absolute;
   bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
-  color: rgba(255,255,255,0.6);
+  color: rgba(255, 255, 255, 0.6);
   font-size: 0.85rem;
   font-family: var(--font-label);
   letter-spacing: 2px;
@@ -1404,8 +1528,10 @@ html.no-scroll body {
 
 .sr-only {
   position: absolute;
-  width: 1px; height: 1px;
-  padding: 0; margin: -1px;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
   overflow: hidden;
   clip: rect(0 0 0 0);
   white-space: nowrap;
@@ -1521,8 +1647,17 @@ html.no-scroll body {
 }
 
 @keyframes sparkle-twinkle {
-  0%, 100% { opacity: 0.45; transform: scale(0.85); }
-  50%      { opacity: 1;    transform: scale(1.15); }
+
+  0%,
+  100% {
+    opacity: 0.45;
+    transform: scale(0.85);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
 }
 
 .lixi-hint {
@@ -1564,8 +1699,13 @@ html.no-scroll body {
 }
 
 @keyframes lixi-rise {
-  from { transform: translateY(100%); }
-  to   { transform: translateY(0); }
+  from {
+    transform: translateY(100%);
+  }
+
+  to {
+    transform: translateY(0);
+  }
 }
 
 .lixi-panel-head {
@@ -1850,8 +1990,15 @@ select.form-control {
 }
 
 @keyframes wish-appear {
-  from { opacity: 0; transform: translateY(-12px) scale(0.98); }
-  to { opacity: 1; transform: translateY(0) scale(1); }
+  from {
+    opacity: 0;
+    transform: translateY(-12px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 .wish-card:hover {
@@ -1869,7 +2016,9 @@ select.form-control {
   border-radius: 12px;
 }
 
-.guestbook-status[hidden] { display: none; }
+.guestbook-status[hidden] {
+  display: none;
+}
 
 .wish-header {
   display: flex;
@@ -2004,40 +2153,150 @@ select.form-control {
 
 /* Responsive adjustments */
 @media (max-width: 640px) {
-  .hero-names { font-size: 2.3rem; }
-  .hero-amp { font-size: 1.4rem; margin: 0 6px; }
-  .envelope-title { font-size: 2.1rem; }
-  .envelope-card { padding: 66px 20px 34px; }
-  .btn-open-invite { padding: 13px 32px; font-size: 0.85rem; }
-  .section { padding: 46px 0; }
-  .section-subtitle { font-size: 1.7rem; }
-  .section-main-title { font-size: 0.95rem; letter-spacing: 2.5px; }
-  .info-card { padding: 34px 18px 30px; }
-  .parents-grid { gap: 10px; }
-  .couple-name { font-size: 1.25rem; }
-  .ceremony-date-day { font-size: 2rem; }
-  .bank-card { padding: 26px 16px; }
-  .bank-qr-img { width: 100%; max-width: 180px; }
-  .account-number-box { padding: 10px; gap: 8px; }
-  .acc-num { font-size: 0.85rem; letter-spacing: 0.5px; }
-  .btn-copy { padding: 7px 12px; font-size: 0.72rem; }
-  .thankyou-title { font-size: 2.6rem; }
-  .rsvp-card { padding: 26px 18px; }
-  .lightbox-btn { display: none; }
-  .lightbox-img { max-width: 94vw; }
+  .envelope-title {
+    font-size: clamp(26px, 7vw, 32px);
+  }
+
+  .envelope-card {
+    padding: 64px 18px 30px;
+  }
+
+  .envelope-flower-decor {
+    top: -22px;
+    left: -10px;
+    width: 95px;
+    max-width: 108px;
+  }
+
+  .btn-open-invite {
+    padding: 12px 28px;
+    font-size: 0.85rem;
+  }
+
+  .section {
+    padding: 46px 0;
+  }
+
+  .section-subtitle {
+    font-size: 1.7rem;
+  }
+
+  .section-main-title {
+    font-size: 0.95rem;
+    letter-spacing: 2.5px;
+  }
+
+  .info-card {
+    padding: 34px 18px 30px;
+  }
+
+  .header-flower-left,
+  .header-flower-right {
+    height: 56px;
+    max-width: 145px;
+  }
+
+  .info-card-header-decor {
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  .card-flower-decor-left {
+    left: -20px;
+    top: -38px;
+    width: 105px;
+    max-width: 120px;
+  }
+
+  .card-flower-decor-right {
+    right: -12px;
+    bottom: 2%;
+    width: 110px;
+    max-width: 125px;
+  }
+
+  .card-flower-decor-right.card-flower-reception {
+    top: 115px;
+    bottom: auto;
+  }
+
+  .parents-grid {
+    gap: 10px;
+  }
+
+  .couple-name {
+    font-size: 1.25rem;
+  }
+
+  .ceremony-date-day {
+    font-size: 2rem;
+  }
+
+  .bank-card {
+    padding: 26px 16px;
+  }
+
+  .bank-qr-img {
+    width: 100%;
+    max-width: 180px;
+  }
+
+  .account-number-box {
+    padding: 10px;
+    gap: 8px;
+  }
+
+  .acc-num {
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+  }
+
+  .btn-copy {
+    padding: 7px 12px;
+    font-size: 0.72rem;
+  }
+
+  .thankyou-title {
+    font-size: 2.6rem;
+  }
+
+  .rsvp-card {
+    padding: 26px 18px;
+  }
+
+  .lightbox-btn {
+    display: none;
+  }
+
+  .lightbox-img {
+    max-width: 94vw;
+  }
 }
 
 /* Respect the OS "reduce motion" setting: keep the layout, drop the movement. */
 @media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
+  html {
+    scroll-behavior: auto;
+  }
 
-  *, *::before, *::after {
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
   }
 
-  .reveal { opacity: 1; transform: none; }
-  .particle { display: none; }
-  .btn-open-invite::after { display: none; }
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+
+  .particle {
+    display: none;
+  }
+
+  .btn-open-invite::after {
+    display: none;
+  }
 }
